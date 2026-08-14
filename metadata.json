@@ -1,0 +1,6 @@
+{
+  "name": "Aurelian Mist",
+  "description": "A sanctuary for digital transformation. Burn dormant NFTs to forge nature-inspired digital artifacts through intentional destruction.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

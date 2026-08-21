@@ -18,13 +18,22 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
 
   return (
     <section 
-      className="relative w-full py-24 px-5 lg:px-12 bg-cover bg-center transition-all duration-300"
+      className="relative w-full py-28 px-5 lg:px-12 bg-cover bg-fixed bg-center transition-all duration-500 overflow-hidden"
       style={{ backgroundImage: `url("${ASSET_IMAGES.faqBg}")` }}
     >
-      {/* Background Dark Overlay */}
-      <div className={`absolute inset-0 transition-opacity duration-300 ${
-        themeMode === 'dark' ? 'bg-black/45 backdrop-brightness-90' : 'bg-[#fff8f3]/75'
+      {/* 1. Base dark tint */}
+      <div className={`absolute inset-0 transition-opacity duration-500 ${
+        themeMode === 'dark' ? 'bg-black/55 backdrop-brightness-85' : 'bg-[#101412]/35 backdrop-brightness-95'
       }`} />
+
+      {/* 2. Top Edge Fade (blending seamlessly from vault section) */}
+      <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#060a08] via-[#060a08]/50 to-transparent pointer-events-none z-[1]" />
+
+      {/* 3. Radial Vignette for depth */}
+      <div className="absolute inset-0 section-vignette pointer-events-none z-[1]" />
+
+      {/* 4. Bottom Edge Fade (blending directly into the footer) */}
+      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-b from-transparent via-[#141210]/80 to-[#141210] pointer-events-none z-[1]" />
 
       <div className="relative z-10 max-w-4xl mx-auto">
         {/* Title */}

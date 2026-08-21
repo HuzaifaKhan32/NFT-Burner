@@ -83,3 +83,29 @@
 .flame-glow-pulse {
   animation: flamePulse 2s infinite ease-in-out;
 }
+
+/* Atmospheric Section Transition Masks */
+.section-vignette {
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(10,9,7,0.65) 75%, rgba(10,9,7,0.92) 100%);
+}
+
+.section-vignette-deep {
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(8,8,8,0.7) 70%, rgba(6,6,6,0.95) 100%);
+}
+
+/* Soft ambient mist shimmer */
+@keyframes mistDrift {
+  0%, 100% {
+    opacity: 0.35;
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: translateY(-8px) scale(1.03);
+  }
+}
+
+.animate-mist-shimmer {
+  animation: mistDrift 6s infinite ease-in-out;
+}
+

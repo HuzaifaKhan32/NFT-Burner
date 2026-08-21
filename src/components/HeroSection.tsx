@@ -16,13 +16,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   return (
     <section 
-      className="relative w-full min-h-[88vh] flex items-center justify-center pt-24 pb-16 px-5 lg:px-12 bg-cover bg-center transition-all duration-500"
+      className="relative w-full min-h-[92vh] flex items-center justify-center pt-28 pb-24 px-5 lg:px-12 bg-cover bg-fixed bg-center transition-all duration-500 overflow-hidden"
       style={{ backgroundImage: `url("${ASSET_IMAGES.heroBg}")` }}
     >
-      {/* Dark overlay for contrast */}
-      <div className={`absolute inset-0 transition-opacity duration-300 ${
-        themeMode === 'dark' ? 'bg-black/40 backdrop-brightness-90' : 'bg-[#1e1b16]/20'
+      {/* 1. Base dark tone layer */}
+      <div className={`absolute inset-0 transition-opacity duration-500 ${
+        themeMode === 'dark' ? 'bg-black/45 backdrop-brightness-90' : 'bg-[#1a1713]/30 backdrop-brightness-95'
       }`} />
+
+      {/* 2. Top Edge Fade (under navigation) */}
+      <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-black/80 via-black/30 to-transparent pointer-events-none z-[1]" />
+
+      {/* 3. Radial Vignette for focused center attention */}
+      <div className="absolute inset-0 section-vignette pointer-events-none z-[1]" />
+
+      {/* 4. Bottom Smooth Fade to next section */}
+      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-b from-transparent via-[#0d0c0a]/60 to-[#0d0c0a] pointer-events-none z-[1]" />
 
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
         {/* Glass Card Container */}

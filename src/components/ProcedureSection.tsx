@@ -1,6 +1,7 @@
 import React from 'react';
+import { ASSET_IMAGES } from '../data/mockData';
 import { ThemeMode } from '../types';
-import { Sparkles, Search, CheckCheck, Compass, Gem } from 'lucide-react';
+import { Sparkles, Search, CheckCheck, Gem } from 'lucide-react';
 
 interface ProcedureSectionProps {
   themeMode: ThemeMode;
@@ -37,20 +38,31 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
   ];
 
   return (
-    <section className={`py-24 px-5 lg:px-12 transition-colors duration-300 ${
-      themeMode === 'dark' ? 'bg-[#121212]' : 'bg-[#fdfbf7]'
-    }`}>
-      <div className="max-w-6xl mx-auto">
+    <section 
+      className="relative w-full py-28 px-5 lg:px-12 bg-cover bg-fixed bg-center transition-all duration-500 overflow-hidden"
+      style={{ backgroundImage: `url("${ASSET_IMAGES.stepsBg}")` }}
+    >
+      {/* 1. Base dark tint */}
+      <div className={`absolute inset-0 transition-opacity duration-500 ${
+        themeMode === 'dark' ? 'bg-black/55 backdrop-brightness-85' : 'bg-[#181510]/35 backdrop-brightness-95'
+      }`} />
+
+      {/* 2. Top Edge Fade (blending seamlessly from Hero) */}
+      <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#0d0c0a] via-[#0d0c0a]/50 to-transparent pointer-events-none z-[1]" />
+
+      {/* 3. Radial Vignette for rich depth */}
+      <div className="absolute inset-0 section-vignette pointer-events-none z-[1]" />
+
+      {/* 4. Bottom Edge Fade (blending smoothly into Vault) */}
+      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-b from-transparent via-[#0a0c0b]/60 to-[#0a0c0b] pointer-events-none z-[1]" />
+
+      <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className={`font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 ${
-            themeMode === 'dark' ? 'text-[#e5e2e1]' : 'text-[#2c2416]'
-          }`}>
+          <h2 className="font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 text-[#e5e2e1]">
             The Ritual of Metamorphosis
           </h2>
-          <p className={`text-base sm:text-lg max-w-2xl mx-auto ${
-            themeMode === 'dark' ? 'text-[#d1c5b4]' : 'text-[#4e4639]'
-          }`}>
+          <p className="text-base sm:text-lg max-w-2xl mx-auto text-[#d1c5b4]">
             A serene five-step journey transitioning physical-digital aesthetic energy into rare botanical artifacts.
           </p>
         </div>
@@ -59,7 +71,7 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
         <div className={`rounded-3xl p-8 lg:p-14 shadow-2xl relative ${
           themeMode === 'dark'
             ? 'glass-sharp text-white'
-            : 'bg-white/80 border border-white/60 shadow-xl backdrop-blur-md text-[#2c2416]'
+            : 'bg-black/60 border border-white/20 shadow-2xl backdrop-blur-md text-white'
         }`}>
           {/* Connector Line on Desktop */}
           <div className="hidden md:block absolute top-1/2 left-12 right-12 h-px bg-[#e9c176]/20 -translate-y-6 z-0" />

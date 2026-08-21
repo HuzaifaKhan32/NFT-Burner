@@ -34,13 +34,22 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
   return (
     <section 
       id="burn-vault-interface"
-      className="relative w-full py-24 px-5 lg:px-12 bg-cover bg-fixed bg-center transition-all duration-300"
+      className="relative w-full py-28 px-5 lg:px-12 bg-cover bg-fixed bg-center transition-all duration-500 overflow-hidden"
       style={{ backgroundImage: `url("${ASSET_IMAGES.vaultBg}")` }}
     >
-      {/* Background Dark Overlay */}
-      <div className={`absolute inset-0 transition-opacity duration-300 ${
-        themeMode === 'dark' ? 'bg-black/45 backdrop-brightness-90' : 'bg-[#121212]/30'
+      {/* 1. Base dark tint */}
+      <div className={`absolute inset-0 transition-opacity duration-500 ${
+        themeMode === 'dark' ? 'bg-black/50 backdrop-brightness-90' : 'bg-[#141414]/35 backdrop-brightness-95'
       }`} />
+
+      {/* 2. Top Edge Fade (blending seamlessly from steps section) */}
+      <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#0a0c0b] via-[#0a0c0b]/50 to-transparent pointer-events-none z-[1]" />
+
+      {/* 3. Radial Vignette for depth */}
+      <div className="absolute inset-0 section-vignette pointer-events-none z-[1]" />
+
+      {/* 4. Bottom Edge Fade (blending smoothly into FAQ forest) */}
+      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-b from-transparent via-[#060a08]/60 to-[#060a08] pointer-events-none z-[1]" />
 
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
         {/* Main Vault Interface Glass Card */}

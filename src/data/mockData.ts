@@ -2,9 +2,10 @@ import { NFTItem, Artifact } from '../types';
 
 export const ASSET_IMAGES = {
   logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop",
-  heroBg: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop",
-  vaultBg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop",
-  faqBg: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2000&auto=format&fit=crop",
+  heroBg: "/src/assets/images/hero_farm_landscape_1787311825390.jpg",
+  vaultBg: "/src/assets/images/vault_river_landscape_1787311839006.jpg",
+  faqBg: "/src/assets/images/faq_forest_mist_1787311849645.jpg",
+  stepsBg: "/src/assets/images/steps_autumn_canopy_1787311860222.jpg",
   nft1: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop",
   nft2: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
   nft3: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=600&auto=format&fit=crop",

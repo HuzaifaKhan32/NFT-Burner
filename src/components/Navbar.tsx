@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 : themeMode === 'dark' ? 'text-white/70 border-transparent hover:text-white' : 'text-[#4e4639] border-transparent hover:text-[#1e1b16]'
             }`}
           >
-            BURN
+            METAMORPHOSIS
           </button>
           <button
             onClick={() => handleTabClick('marketplace')}
@@ -147,7 +147,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Wallet size={14} />
             {walletState.isConnected && walletState.address
               ? `${walletState.address.slice(0, 6)}...${walletState.address.slice(-4)}`
-              : 'CONNECT WALLET'}
+              : 'CONNECT PHANTOM'}
           </button>
 
           {/* User Profile Avatar */}
@@ -159,7 +159,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className={`w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-105 ${
               themeMode === 'dark' ? 'bg-[#e9c176] text-[#412d00]' : 'bg-[#775a19] text-white'
             }`}
-            title="User Profile & Wallet"
+            title="Collector Profile & Phantom Wallet"
           >
             <User size={18} />
           </div>
@@ -189,7 +189,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => handleTabClick('burn-vault')}
             className="block w-full text-left py-2 text-sm font-semibold tracking-widest uppercase text-[#e9c176]"
           >
-            BURN
+            METAMORPHOSIS
           </button>
           <button
             onClick={() => handleTabClick('marketplace')}
@@ -205,7 +205,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="w-full mt-4 py-3 bg-[#e9c176] text-black rounded-full text-xs font-semibold tracking-wider uppercase text-center"
           >
-            {walletState.isConnected ? walletState.address : 'CONNECT WALLET'}
+            {walletState.isConnected ? walletState.address : 'CONNECT PHANTOM WALLET'}
           </button>
         </div>
       )}

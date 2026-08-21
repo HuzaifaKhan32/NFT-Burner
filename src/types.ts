@@ -6,11 +6,8 @@ export interface NFTItem {
   name: string;
   collection: string;
   image: string;
-  tier: 'Common' | 'Rare' | 'Epic' | 'Legendary';
   isSupported: boolean;
-  powerValue: number;
   description: string;
-  contractAddress: string;
   tokenId: string;
   isSelected?: boolean;
 }
@@ -21,8 +18,9 @@ export interface Artifact {
   rarity: 'Botanical' | 'Ethereal' | 'Celestial' | 'Mythic';
   image: string;
   forgedAt: string;
-  burnedNftCount: number;
+  transformedCount: number;
   originalNfts: string[];
+  originalThumbnails?: string[];
   vrfSeed: string;
   moonPhase: string;
   priceEth?: number;
@@ -38,5 +36,5 @@ export interface WalletState {
   isConnected: boolean;
   address: string | null;
   ethBalance: number;
-  aurelBalance: number;
+  walletName?: string;
 }

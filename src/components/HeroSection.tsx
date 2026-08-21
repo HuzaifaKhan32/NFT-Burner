@@ -52,7 +52,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <p className={`text-base sm:text-lg max-w-2xl leading-relaxed mb-10 font-sans ${
             themeMode === 'dark' ? 'text-white/80' : 'text-[#4e4639]'
           }`}>
-            Aurelian Mist is a sanctuary for transformation. Burn your dormant NFTs to forge nature-inspired digital artifacts. Embrace the profound quietude of creation through intentional destruction.
+            Aurelian Mist is a sanctuary for artistic transformation. Surrender your dormant original artworks to forge luminous, nature-inspired digital artifacts through deliberate metamorphosis.
           </p>
 
           {/* Action Buttons */}
@@ -68,7 +68,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   : 'bg-[#775a19] text-white hover:bg-[#5d4201] shadow-[#775a19]/25'
               }`}
             >
-              ENTER THE BURN VAULT
+              ENTER TRANSFORMATION VAULT
             </button>
 
             <button
@@ -96,7 +96,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               14.2k
             </span>
             <span className="text-[11px] font-semibold tracking-[0.2em] text-[#e9c176] uppercase mt-1">
-              Artifacts Burned
+              Transformed Works
             </span>
           </div>
 

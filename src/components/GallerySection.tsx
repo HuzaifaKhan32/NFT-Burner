@@ -99,13 +99,13 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ artifacts, theme
                   alt={art.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-[#e9c176]/40 text-[10px] font-bold tracking-wider text-[#e9c176] uppercase">
+                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-[#e9c176]/40 text-[10px] font-semibold tracking-wider text-[#e9c176] uppercase">
                   {art.rarity}
                 </div>
 
-                <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md text-[10px] font-medium text-white/80 flex items-center gap-1">
-                  <Flame size={12} className="text-[#e9c176]" />
-                  <span>{art.burnedNftCount} Burned</span>
+                <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md text-[10px] font-medium text-white/90 flex items-center gap-1.5 border border-white/10">
+                  <Sparkles size={11} className="text-[#e9c176]" />
+                  <span>{art.transformedCount || art.originalNfts.length} Transformed</span>
                 </div>
               </div>
 
@@ -120,8 +120,8 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ artifacts, theme
 
                 <div className="pt-3 border-t border-white/10 flex justify-between items-center text-xs">
                   <span className="text-current opacity-60">Forged {art.forgedAt}</span>
-                  <span className="text-[#e9c176] font-bold flex items-center gap-0.5">
-                    {art.priceEth} ETH <ArrowUpRight size={14} />
+                  <span className="text-[#e9c176] font-semibold flex items-center gap-0.5">
+                    {art.priceEth} SOL <ArrowUpRight size={14} />
                   </span>
                 </div>
               </div>
@@ -129,54 +129,72 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ artifacts, theme
           ))}
         </div>
 
-        {/* Modal Inspection for Artifact */}
+        {/* Modal Inspection for Artifact with Provenance */}
         {inspectArtifact && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-            <div className="relative w-full max-w-3xl glass-sharp-gold rounded-3xl p-6 sm:p-10 text-white overflow-hidden my-8">
+            <div className="relative w-full max-w-3xl glass-sharp-gold rounded-3xl p-6 sm:p-10 text-white overflow-hidden my-8 border border-[#e9c176]/40">
               <button
                 onClick={() => setInspectArtifact(null)}
-                className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white"
+                className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white cursor-pointer"
               >
                 ✕
               </button>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="aspect-square rounded-2xl overflow-hidden border border-[#e9c176]/50 shadow-2xl relative">
+                <div className="aspect-square rounded-2xl overflow-hidden border border-[#e9c176]/50 shadow-2xl relative bg-black">
                   <img src={inspectArtifact.image} alt={inspectArtifact.name} className="w-full h-full object-cover" />
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 text-[10px] font-bold text-[#e9c176] border border-[#e9c176]/40">
+                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 text-[10px] font-semibold text-[#e9c176] border border-[#e9c176]/40 uppercase tracking-wider">
                     {inspectArtifact.rarity}
                   </div>
                 </div>
 
                 <div>
-                  <h2 className="font-serif-heading text-2xl sm:text-3xl font-semibold text-[#e9c176] mb-3">
+                  <h2 className="font-serif-heading text-2xl sm:text-3xl font-semibold text-[#e9c176] mb-2">
                     {inspectArtifact.name}
                   </h2>
-                  <p className="text-xs text-white/80 leading-relaxed mb-6">
+                  <p className="text-xs text-white/80 leading-relaxed mb-4 font-sans">
                     {inspectArtifact.story}
                   </p>
 
-                  <div className="space-y-3 mb-6 text-xs">
+                  {/* Provenance & Lineage with Origin Previews */}
+                  <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10 mb-4">
+                    <span className="text-[10px] font-semibold tracking-[0.15em] text-[#e9c176] uppercase block mb-1.5">
+                      PROVENANCE & ORIGIN
+                    </span>
+                    <p className="text-xs text-white/80 mb-2.5">
+                      Composed from {inspectArtifact.transformedCount || inspectArtifact.originalNfts.length} transformed original works:
+                    </p>
+                    <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                      {inspectArtifact.originalThumbnails?.map((thumb, idx) => (
+                        <div key={idx} className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg p-1 shrink-0">
+                          <img src={thumb} alt="Origin" className="w-7 h-7 rounded object-cover" />
+                          <span className="text-[10px] text-white/90 truncate max-w-[100px]">
+                            {inspectArtifact.originalNfts[idx] || `Work #${idx + 1}`}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 mb-6 text-xs font-sans">
                     <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex justify-between">
-                      <span className="text-white/60">VRF Verification Seed</span>
+                      <span className="text-white/60">Verifiable Synthesis Seed</span>
                       <span className="font-mono text-[#e9c176]">{inspectArtifact.vrfSeed}</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex justify-between">
-                      <span className="text-white/60">Sacrificed Assets</span>
-                      <span className="text-white font-medium truncate max-w-[180px]">
-                        {inspectArtifact.originalNfts.join(', ')}
-                      </span>
+                      <span className="text-white/60">Lunar Calibration</span>
+                      <span className="text-white font-medium">{inspectArtifact.moonPhase}</span>
                     </div>
                   </div>
 
                   <button
                     onClick={() => {
                       soundFX.playClick();
-                      alert(`Successfully initiated offer for ${inspectArtifact.name} on Aurelian Marketplace!`);
+                      setInspectArtifact(null);
                     }}
-                    className="w-full py-3.5 rounded-full bg-[#e9c176] text-black font-bold text-xs tracking-widest uppercase hover:bg-[#ffdea5] transition-all shadow-lg"
+                    className="w-full py-3.5 rounded-full bg-[#e9c176] text-[#2c1d00] font-semibold text-xs tracking-widest uppercase hover:bg-[#ffdea5] transition-all shadow-lg cursor-pointer"
                   >
-                    COLLECT ARTIFACT ({inspectArtifact.priceEth} ETH)
+                    COLLECT ARTIFACT ({inspectArtifact.priceEth} SOL)
                   </button>
                 </div>
               </div>

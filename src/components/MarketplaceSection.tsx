@@ -37,7 +37,7 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
             Aurelian Marketplace
           </h1>
           <p className={`text-base sm:text-lg ${themeMode === 'dark' ? 'text-[#d1c5b4]' : 'text-[#4e4639]'}`}>
-            Acquire nature-inspired artifacts directly from creators who performed the burn ritual.
+            Acquire rare botanical artifacts directly from collectors who initiated the ritual of metamorphosis.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
         }`}>
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
             <Tag size={16} className="text-[#e9c176]" />
-            <span>Active Listings ({sortedArtifacts.length})</span>
+            <span>Curated Offerings ({sortedArtifacts.length})</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -77,7 +77,7 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
             >
               <div className="relative aspect-square overflow-hidden bg-black/40">
                 <img src={art.image} alt={art.name} className="w-full h-full object-cover" />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 text-[10px] font-bold text-[#e9c176]">
+                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 text-[10px] font-semibold tracking-wider uppercase text-[#e9c176]">
                   {art.rarity}
                 </div>
               </div>
@@ -86,8 +86,8 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
                 <h3 className="font-serif-heading text-lg font-semibold truncate mb-1">
                   {art.name}
                 </h3>
-                <span className="text-[10px] text-white/50 block font-mono mb-4">
-                  Creator: {art.creator}
+                <span className="text-[10px] text-white/50 block mb-4">
+                  Curated by {art.creator}
                 </span>
 
                 <div className="flex items-center justify-between pt-3 border-t border-white/10">
@@ -95,19 +95,18 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
                     <span className="text-[10px] text-white/50 block uppercase tracking-wider">
                       Price
                     </span>
-                    <span className="text-base font-bold text-[#e9c176]">
-                      {art.priceEth} ETH
+                    <span className="text-base font-semibold text-[#e9c176]">
+                      {art.priceEth} SOL
                     </span>
                   </div>
 
                   <button
                     onClick={() => {
                       soundFX.playClick();
-                      alert(`Purchased ${art.name} for ${art.priceEth} ETH!`);
                     }}
-                    className="px-4 py-2 rounded-full bg-[#e9c176] text-black text-xs font-bold tracking-wider uppercase hover:bg-[#ffdea5] transition-all"
+                    className="px-4 py-2 rounded-full bg-[#e9c176] text-[#2c1d00] text-xs font-semibold tracking-wider uppercase hover:bg-[#ffdea5] transition-all cursor-pointer"
                   >
-                    BUY NOW
+                    COLLECT
                   </button>
                 </div>
               </div>

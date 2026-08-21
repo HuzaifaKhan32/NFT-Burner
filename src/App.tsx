@@ -21,8 +21,8 @@ export default function App() {
 
   const [walletState, setWalletState] = useState<WalletState>({
     isConnected: true,
-    address: '0x3A92...811F',
-    ethBalance: 4.85,
+    address: 'Phan7...8A21',
+    ethBalance: 12.45,
     aurelBalance: 1420
   });
 
@@ -40,50 +40,42 @@ export default function App() {
     }));
   };
 
-  // Start Framer Motion Burn Ritual
+  // Start Metamorphosis Ritual
   const handleStartBurnRitual = (selected: NFTItem[]) => {
     setSelectedForBurn(selected);
     setIsBurnModalOpen(true);
   };
 
-  // Complete Burn Ritual & add newly forged artifact
+  // Complete Metamorphosis Ritual & add newly forged artifact
   const handleCompleteBurn = (newArtifact: Artifact) => {
     setArtifacts(prev => [newArtifact, ...prev]);
 
-    // Remove or filter out burned NFTs from active vault
-    const burnedIds = new Set(selectedForBurn.map(n => n.id));
-    setNfts(prev => prev.filter(nft => !burnedIds.has(nft.id)));
-
-    // Increment user aurel power & award bonus
-    setWalletState(prev => ({
-      ...prev,
-      aurelBalance: prev.aurelBalance + (selectedForBurn.length * 500)
-    }));
+    // Remove transformed NFTs from active vault
+    const transformedIds = new Set(selectedForBurn.map(n => n.id));
+    setNfts(prev => prev.filter(nft => !transformedIds.has(nft.id)));
 
     setIsBurnModalOpen(false);
     setActiveTab('gallery');
   };
 
-  // Dynamically mint/add test NFT for testing burn repeatedly
+  // Dynamically add a curated piece to the vault for testing transformations
   const handleAddTestNft = () => {
-    const randomId = Math.floor(Math.random() * 9000 + 1000);
-    const testImages = [
-      ASSET_IMAGES.nft1,
-      ASSET_IMAGES.nft2,
-      ASSET_IMAGES.nft3,
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop"
+    const randomId = Math.floor(Math.random() * 900 + 100);
+    const testArtworks = [
+      { name: `Nocturnal Prism #${randomId}`, collection: "Aurelian Studies", img: ASSET_IMAGES.nft1, desc: "Deep chromatic gradient with ambient light reflections." },
+      { name: `Geometric Dawn #${randomId}`, collection: "Architectonic Series", img: ASSET_IMAGES.nft2, desc: "Floating architectural volumes bathed in soft morning mist." },
+      { name: `Kinetic Resonance #${randomId}`, collection: "Harmonic Fields", img: ASSET_IMAGES.nft3, desc: "Luminescent ribbon curves intersecting in quiet space." },
+      { name: `Fluid Synthesis #${randomId}`, collection: "Chrono Guild Studies", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop", desc: "Metallic ribbons suspended in zero-gravity field." },
+      { name: `Oceanic Flare #${randomId}`, collection: "Oceanic Cosmos", img: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop", desc: "Marine color field illuminated by coronal flare." }
     ];
+    const picked = testArtworks[Math.floor(Math.random() * testArtworks.length)];
     const newNft: NFTItem = {
       id: `nft-custom-${Date.now()}`,
-      name: `DORMANT APE #${randomId}`,
-      collection: "Aurelian Test Vault",
-      image: testImages[Math.floor(Math.random() * testImages.length)],
-      tier: Math.random() > 0.5 ? "Epic" : "Rare",
+      name: picked.name,
+      collection: picked.collection,
+      image: picked.img,
       isSupported: true,
-      powerValue: Math.floor(Math.random() * 500 + 300),
-      description: "A newly minted test NFT ready to be sacrificed in the burn vault.",
-      contractAddress: "0x" + Math.random().toString(16).slice(2, 8),
+      description: picked.desc,
       tokenId: `${randomId}`,
       isSelected: true
     };
@@ -91,12 +83,12 @@ export default function App() {
     setNfts(prev => [newNft, ...prev]);
   };
 
-  // Wallet Handlers
+  // Wallet Handlers (Phantom only)
   const handleConnectWallet = (providerName: string) => {
     setWalletState({
       isConnected: true,
-      address: `0x${Math.random().toString(16).slice(2, 6)}...${Math.random().toString(16).slice(2, 6)}`.toUpperCase(),
-      ethBalance: 5.0,
+      address: `Phan${Math.random().toString(36).slice(2, 4).toUpperCase()}...${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+      ethBalance: 12.45,
       aurelBalance: 2000
     });
     setIsWalletModalOpen(false);

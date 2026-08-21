@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeMode } from '../types';
-import { Wallet, Search, CheckCheck, Flame, Gem } from 'lucide-react';
+import { Sparkles, Search, CheckCheck, Compass, Gem } from 'lucide-react';
 
 interface ProcedureSectionProps {
   themeMode: ThemeMode;
@@ -10,29 +10,29 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
   const steps = [
     {
       step: "01. CONNECT",
-      desc: "Securely link your Web3 wallet to begin.",
-      icon: <Wallet className="w-7 h-7 text-[#e9c176]" />
+      desc: "Link your Phantom wallet to access your curated vault.",
+      icon: <span className="text-2xl">👻</span>
     },
     {
       step: "02. DETECT",
-      desc: "We scan your vault for eligible assets.",
-      icon: <Search className="w-7 h-7 text-[#e9c176]" />
+      desc: "Our gallery protocol scans for eligible original works.",
+      icon: <Search className="w-6 h-6 text-[#e9c176]" />
     },
     {
       step: "03. SELECT",
-      desc: "Choose the dormant NFTs you wish to sacrifice.",
-      icon: <CheckCheck className="w-7 h-7 text-[#e9c176]" />
+      desc: "Choose the original artworks you wish to surrender.",
+      icon: <CheckCheck className="w-6 h-6 text-[#e9c176]" />
     },
     {
-      step: "04. BURN",
-      desc: "Execute the irreversible contract burn.",
-      icon: <Flame className="w-7 h-7 text-[#e9c176] animate-pulse" />,
+      step: "04. METAMORPHOSIS",
+      desc: "The pieces dissolve into particle light to recombine.",
+      icon: <Sparkles className="w-6 h-6 text-[#e9c176] animate-pulse" />,
       highlight: true
     },
     {
-      step: "05. RECEIVE",
-      desc: "Claim your new Aurelian Artifact.",
-      icon: <Gem className="w-7 h-7 text-[#e9c176]" />
+      step: "05. REVEAL",
+      desc: "Receive your newly forged botanical artifact.",
+      icon: <Gem className="w-6 h-6 text-[#e9c176]" />
     }
   ];
 
@@ -46,12 +46,12 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
           <h2 className={`font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 ${
             themeMode === 'dark' ? 'text-[#e5e2e1]' : 'text-[#2c2416]'
           }`}>
-            The Ritual of Transformation
+            The Ritual of Metamorphosis
           </h2>
           <p className={`text-base sm:text-lg max-w-2xl mx-auto ${
             themeMode === 'dark' ? 'text-[#d1c5b4]' : 'text-[#4e4639]'
           }`}>
-            A seamless five-step process to transition your digital assets into the Aurelian ecosystem.
+            A serene five-step journey transitioning physical-digital aesthetic energy into rare botanical artifacts.
           </p>
         </div>
 

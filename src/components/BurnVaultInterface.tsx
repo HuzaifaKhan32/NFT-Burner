@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ASSET_IMAGES } from '../data/mockData';
 import { NFTItem, ThemeMode, WalletState } from '../types';
 import { soundFX } from '../utils/audio';
-import { Flame, Check, AlertTriangle, ImageOff, Plus, Sparkles, RefreshCw } from 'lucide-react';
+import { Sparkles, Check, AlertCircle, Plus } from 'lucide-react';
 
 interface BurnVaultInterfaceProps {
   nfts: NFTItem[];
@@ -21,18 +21,11 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
   onStartBurnRitual,
   onAddTestNft
 }) => {
-  const [filterTier, setFilterTier] = useState<string>('All');
-
-  const selectedNfts = nfts.filter(nft => nft.isSelected && nft.isSupported);
+  const eligibleNfts = nfts.filter(nft => nft.isSupported);
+  const selectedNfts = eligibleNfts.filter(nft => nft.isSelected);
   const selectedCount = selectedNfts.length;
-  const totalPower = selectedNfts.reduce((sum, item) => sum + item.powerValue, 0);
 
-  const filteredNfts = nfts.filter(nft => {
-    if (filterTier === 'All') return true;
-    return nft.tier === filterTier;
-  });
-
-  const handleBurnClick = () => {
+  const handleTransformClick = () => {
     if (selectedCount === 0) return;
     soundFX.playBurnIgnite();
     onStartBurnRitual(selectedNfts);
@@ -49,7 +42,7 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
         themeMode === 'dark' ? 'bg-black/45 backdrop-brightness-90' : 'bg-[#121212]/30'
       }`} />
 
-      <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+      <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
         {/* Main Vault Interface Glass Card */}
         <div className={`w-full rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 ${
           themeMode === 'dark'
@@ -57,87 +50,53 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
             : 'glass-sharp-light text-[#1e1b16]'
         }`}>
           {/* Interface Header */}
-          <div className="p-6 md:p-8 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-black/20">
+          <div className="p-8 md:p-10 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-black/25">
             <div>
               <div className="flex items-center gap-3">
-                <h3 className="font-serif-heading text-2xl sm:text-3xl font-medium">
-                  The Burn Vault Interface
+                <h3 className="font-serif-heading text-2xl sm:text-3xl font-medium tracking-tight">
+                  The Transformation Vault
                 </h3>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest uppercase bg-[#e9c176]/20 text-[#e9c176] border border-[#e9c176]/30">
-                  LIVE VAULT
+                <span className="px-3 py-0.5 rounded-full text-[10px] font-semibold tracking-widest uppercase bg-[#e9c176]/20 text-[#e9c176] border border-[#e9c176]/30">
+                  CURATED VAULT
                 </span>
               </div>
-              <p className={`text-xs sm:text-sm mt-1 ${themeMode === 'dark' ? 'text-white/70' : 'text-[#4e4639]'}`}>
-                Select dormant assets to offer to the mist for botanical rebirth.
+              <p className={`text-xs sm:text-sm mt-1.5 font-sans ${themeMode === 'dark' ? 'text-white/70' : 'text-[#4e4639]'}`}>
+                Select original artworks to dissolve into luminous particles and forge your new artifact.
               </p>
             </div>
 
+            {/* Understated Selection Counter */}
             <div className="text-left sm:text-right flex sm:flex-col items-baseline sm:items-end justify-between w-full sm:w-auto">
               <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#e9c176]">
-                OFFERING STATUS
+                SELECTION
               </span>
-              <div className="font-serif-heading text-xl sm:text-2xl font-semibold text-[#e9c176] mt-0.5">
-                {selectedCount} Selected ({totalPower} Power)
+              <div className="font-serif-heading text-xl sm:text-2xl font-medium text-[#e9c176] mt-0.5">
+                {selectedCount} {selectedCount === 1 ? 'Work Selected' : 'Works Selected'}
               </div>
             </div>
           </div>
 
-          {/* Filter Bar & Controls */}
-          <div className="px-6 md:px-8 py-4 bg-black/10 border-b border-white/5 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-              <span className="text-xs font-semibold text-white/50 tracking-wider uppercase mr-1">
-                TIER:
-              </span>
-              {['All', 'Rare', 'Epic', 'Legendary'].map(tier => (
-                <button
-                  key={tier}
-                  onClick={() => {
-                    soundFX.playClick();
-                    setFilterTier(tier);
-                  }}
-                  className={`px-3 py-1 rounded-full text-xs font-medium tracking-wide transition-all ${
-                    filterTier === tier
-                      ? 'bg-[#e9c176] text-black font-semibold'
-                      : 'bg-white/5 text-white/70 hover:bg-white/15'
-                  }`}
-                >
-                  {tier}
-                </button>
-              ))}
-            </div>
+          {/* Sub-header / Mint Action Bar */}
+          <div className="px-8 py-3.5 bg-black/15 border-b border-white/5 flex items-center justify-between">
+            <span className="text-xs font-serif italic text-white/60">
+              Eligible Pieces in Collection ({eligibleNfts.length})
+            </span>
 
             <button
               onClick={() => {
                 soundFX.playClick();
                 onAddTestNft();
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#e9c176]/15 text-[#e9c176] hover:bg-[#e9c176]/30 transition-all border border-[#e9c176]/30"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#e9c176]/15 text-[#e9c176] hover:bg-[#e9c176]/30 transition-all border border-[#e9c176]/30"
             >
-              <Plus size={14} />
-              <span>Mint Test Asset</span>
+              <Plus size={13} />
+              <span>Add Curated Piece</span>
             </button>
           </div>
 
-          {/* NFT Grid */}
-          <div className="p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 min-h-[300px]">
-            {filteredNfts.map(nft => {
-              if (!nft.isSupported) {
-                return (
-                  <div 
-                    key={nft.id}
-                    className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-black/40 flex flex-col items-center justify-center p-4 text-center text-white/40 group"
-                  >
-                    <ImageOff size={28} className="mb-2 opacity-50" />
-                    <span className="text-[10px] font-semibold tracking-wider uppercase">
-                      UNSUPPORTED
-                    </span>
-                    <span className="text-[9px] mt-1 text-white/30 truncate max-w-full">
-                      {nft.name}
-                    </span>
-                  </div>
-                );
-              }
-
+          {/* Museum-Grade Art Grid: Minimal Chrome, Larger Tiles, Generous Spacing */}
+          <div className="p-8 md:p-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 min-h-[360px]">
+            {eligibleNfts.map(nft => {
               const isSelected = !!nft.isSelected;
 
               return (
@@ -147,44 +106,48 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
                     soundFX.playClick();
                     onToggleSelectNft(nft.id);
                   }}
-                  className={`relative aspect-square rounded-xl overflow-hidden group cursor-pointer transition-all duration-300 ${
+                  className={`group relative flex flex-col rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 ${
                     isSelected
-                      ? 'border-2 border-[#e9c176] ring-4 ring-[#e9c176]/30 shadow-lg shadow-[#e9c176]/20 scale-[1.02]'
-                      : 'border border-white/20 hover:border-[#e9c176]/60 hover:scale-[1.01]'
+                      ? 'ring-2 ring-[#e9c176] shadow-2xl shadow-[#e9c176]/25 -translate-y-1'
+                      : 'border border-white/10 hover:border-[#e9c176]/50 hover:-translate-y-1'
                   }`}
                 >
-                  {/* NFT Image */}
-                  <img
-                    src={nft.image}
-                    alt={nft.name}
-                    className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
-                      isSelected ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'
-                    }`}
-                  />
+                  {/* High-Impact Artwork Frame */}
+                  <div className="relative aspect-square w-full overflow-hidden bg-black/50">
+                    <img
+                      src={nft.image}
+                      alt={nft.name}
+                      className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${
+                        isSelected ? 'brightness-105' : 'brightness-95 group-hover:brightness-100'
+                      }`}
+                    />
 
-                  {/* Selected Overlay & Check Badge */}
-                  {isSelected && (
-                    <>
-                      <div className="absolute inset-0 bg-[#e9c176]/15 pointer-events-none" />
-                      <div className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#e9c176] text-[#412d00] flex items-center justify-center shadow-md animate-bounce-once">
-                        <Check size={15} strokeWidth={3} />
-                      </div>
-                    </>
-                  )}
+                    {/* Subtle Radial Vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
-                  {/* Tier Badge */}
-                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-[9px] font-bold tracking-wider text-[#e9c176]">
-                    {nft.tier}
+                    {/* Minimalist Selection Mark */}
+                    <div className={`absolute top-3.5 right-3.5 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      isSelected
+                        ? 'bg-[#e9c176] text-[#1c1917] shadow-lg scale-100'
+                        : 'bg-black/40 backdrop-blur-md border border-white/30 text-transparent opacity-0 group-hover:opacity-100 scale-90'
+                    }`}>
+                      <Check size={16} strokeWidth={2.5} className={isSelected ? 'opacity-100' : 'opacity-0'} />
+                    </div>
                   </div>
 
-                  {/* Card Bottom Label */}
-                  <div className="absolute bottom-0 inset-x-0 p-2.5 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
-                    <span className="text-[11px] font-bold text-white block truncate tracking-wide">
-                      {nft.name}
-                    </span>
-                    <span className="text-[9px] text-[#e9c176] font-medium block">
-                      +{nft.powerValue} Power
-                    </span>
+                  {/* Understated Artwork Label & Collection */}
+                  <div className="p-4 bg-black/40 backdrop-blur-sm border-t border-white/5 flex flex-col justify-between flex-1">
+                    <div>
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-[#e9c176]/80 font-medium block truncate mb-1">
+                        {nft.collection}
+                      </span>
+                      <h4 className="font-serif-heading text-base font-medium text-white tracking-wide truncate">
+                        {nft.name}
+                      </h4>
+                    </div>
+                    <p className="text-[11px] text-white/50 line-clamp-1 mt-1 font-sans">
+                      {nft.description}
+                    </p>
                   </div>
                 </div>
               );
@@ -192,35 +155,37 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
           </div>
 
           {/* Action & Warning Footer */}
-          <div className="p-6 md:p-8 bg-black/40 border-t border-white/10 flex flex-col items-center">
-            {/* Irreversible Action Warning Box */}
-            <div className="w-full max-w-lg p-4 rounded-xl bg-red-950/30 border border-red-500/30 flex items-start gap-3.5 mb-6">
-              <AlertTriangle className="text-red-400 shrink-0 mt-0.5" size={20} />
-              <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-red-300 mb-0.5">
-                  Irreversible Action
+          <div className="p-8 md:p-12 bg-black/45 border-t border-white/10 flex flex-col items-center">
+            {/* Irreversible Action Warning Box - High Contrast, Saturated Warm Garnet/Amber, No Raw Addresses */}
+            <div className="w-full max-w-xl p-5 rounded-2xl bg-[#3b1212]/90 border-2 border-[#ff6b6b]/60 shadow-[0_0_25px_rgba(255,107,107,0.18)] flex items-start gap-4 mb-8 backdrop-blur-md">
+              <div className="w-8 h-8 rounded-full bg-[#ff6b6b]/20 border border-[#ff6b6b]/50 flex items-center justify-center shrink-0 mt-0.5 text-[#ff8f8f]">
+                <AlertCircle size={18} strokeWidth={2.2} />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-[#ffc2c2]">
+                  Permanent Metamorphosis Warning
                 </h4>
-                <p className="text-xs text-red-200/80 leading-relaxed">
-                  Burning these assets will permanently send them to the zero address (0x00...dEaD). This contract execution cannot be reversed or undone.
+                <p className="text-xs text-[#ffe0e0]/90 leading-relaxed font-sans font-medium">
+                  This action is permanent and cannot be reversed. The selected original pieces will be permanently surrendered and dissolved into particle light to forge your new artifact.
                 </p>
               </div>
             </div>
 
-            {/* Burn Trigger Button */}
+            {/* Transform Trigger Button */}
             <button
-              onClick={handleBurnClick}
+              onClick={handleTransformClick}
               disabled={selectedCount === 0}
-              className={`w-full max-w-lg px-8 py-4 rounded-full text-xs font-semibold tracking-widest uppercase transition-all shadow-xl flex items-center justify-center gap-2.5 ${
+              className={`w-full max-w-xl px-8 py-4.5 rounded-full text-xs font-semibold tracking-[0.25em] uppercase transition-all shadow-xl flex items-center justify-center gap-3 ${
                 selectedCount > 0
-                  ? 'bg-gradient-to-r from-red-600 via-amber-600 to-amber-500 text-white hover:from-red-500 hover:to-amber-400 shadow-red-900/40 hover:scale-[1.02] cursor-pointer flame-glow-pulse'
-                  : 'bg-white/10 text-white/40 border border-white/10 cursor-not-allowed'
+                  ? 'bg-gradient-to-r from-[#d97706] via-[#e9c176] to-[#d97706] text-[#2c1d00] hover:brightness-110 shadow-[#d97706]/30 hover:scale-[1.01] cursor-pointer'
+                  : 'bg-white/10 text-white/35 border border-white/10 cursor-not-allowed'
               }`}
             >
-              <Flame size={18} className={selectedCount > 0 ? "animate-bounce" : ""} />
+              <Sparkles size={16} className={selectedCount > 0 ? "animate-pulse" : ""} />
               <span>
                 {selectedCount > 0
-                  ? `BURN ${selectedCount} SELECTED ASSET${selectedCount > 1 ? 'S' : ''}`
-                  : 'SELECT ASSETS TO BURN'}
+                  ? `TRANSFORM ${selectedCount} SELECTED ${selectedCount === 1 ? 'WORK' : 'WORKS'}`
+                  : 'SELECT WORKS TO TRANSFORM'}
               </span>
             </button>
           </div>

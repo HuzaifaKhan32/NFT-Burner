@@ -2,6 +2,7 @@ import React from 'react';
 import { ASSET_IMAGES } from '../data/mockData';
 import { ThemeMode } from '../types';
 import { Sparkles, Search, CheckCheck, Gem } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface ProcedureSectionProps {
   themeMode: ThemeMode;
@@ -61,7 +62,13 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
 
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-16"
+        >
           <h2 className={`font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 ${
             themeMode === 'dark' ? 'text-[#e5e2e1]' : 'text-[#1a150e]'
           }`}>
@@ -72,14 +79,20 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
           }`}>
             A serene five-step journey transitioning physical-digital aesthetic energy into rare botanical artifacts.
           </p>
-        </div>
+        </motion.div>
 
         {/* Glass Panel Container */}
-        <div className={`rounded-3xl p-8 lg:p-14 shadow-2xl relative transition-all duration-300 ${
-          themeMode === 'dark'
-            ? 'glass-sharp text-white'
-            : 'glass-sharp-light text-[#1a150e]'
-        }`}>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className={`rounded-3xl p-8 lg:p-14 shadow-2xl relative transition-all duration-300 ${
+            themeMode === 'dark'
+              ? 'glass-sharp text-white'
+              : 'glass-sharp-light text-[#1a150e]'
+          }`}
+        >
           {/* Connector Line on Desktop */}
           <div className={`hidden md:block absolute top-1/2 left-12 right-12 h-px -translate-y-6 z-0 ${
             themeMode === 'dark' ? 'bg-[#e9c176]/25' : 'bg-[#775a19]/25'
@@ -88,8 +101,12 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
           {/* 5 Steps Grid */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 relative z-10">
             {steps.map((item, idx) => (
-              <div 
+              <motion.div 
                 key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.12 }}
                 className="flex flex-col items-center text-center group cursor-default transition-transform duration-300 hover:-translate-y-1"
               >
                 {/* Circle Icon Container */}
@@ -119,10 +136,10 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
                 }`}>
                   {item.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@ import { FAQS, ASSET_IMAGES } from '../data/mockData';
 import { ThemeMode } from '../types';
 import { soundFX } from '../utils/audio';
 import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface FAQSectionProps {
   themeMode: ThemeMode;
@@ -40,7 +41,13 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
 
       <div className="relative z-10 max-w-4xl mx-auto">
         {/* Title */}
-        <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-16"
+        >
           <h2 className={`font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 ${
             themeMode === 'dark' ? 'text-[#e5e2e1]' : 'text-[#1a150e]'
           }`}>
@@ -51,21 +58,31 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
           }`}>
             Understanding the philosophy and mechanics of the Aurelian Burn.
           </p>
-        </div>
+        </motion.div>
 
         {/* Glass Accordion Container with Enhanced Glassmorphism */}
-        <div className={`rounded-3xl p-6 sm:p-12 shadow-2xl transition-all duration-300 ${
-          themeMode === 'dark'
-            ? 'glass-sharp text-white'
-            : 'glass-sharp-light text-[#1a150e]'
-        }`}>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className={`rounded-3xl p-6 sm:p-12 shadow-2xl transition-all duration-300 ${
+            themeMode === 'dark'
+              ? 'glass-sharp text-white'
+              : 'glass-sharp-light text-[#1a150e]'
+          }`}
+        >
           <div className="space-y-6">
-            {FAQS.map(faq => {
+            {FAQS.map((faq, idx) => {
               const isOpen = openFaqId === faq.id;
 
               return (
-                <div 
+                <motion.div 
                   key={faq.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
                   onClick={() => toggleFaq(faq.id)}
                   className={`border-b pb-6 cursor-pointer group transition-colors ${
                     themeMode === 'dark' ? 'border-white/10' : 'border-black/10'
@@ -91,19 +108,29 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
                     </div>
                   </div>
 
-                  {/* Expandable Body */}
-                  {isOpen && (
-                    <div className="mt-4 text-sm sm:text-base leading-relaxed opacity-95 animate-fade-in font-sans">
-                      <p className={themeMode === 'dark' ? 'text-white/80' : 'text-[#383124] font-medium'}>
-                        {faq.answer}
-                      </p>
-                    </div>
-                  )}
-                </div>
+                  {/* Expandable Body with smooth height transition */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div 
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-4 text-sm sm:text-base leading-relaxed opacity-95 font-sans">
+                          <p className={themeMode === 'dark' ? 'text-white/80' : 'text-[#383124] font-medium'}>
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

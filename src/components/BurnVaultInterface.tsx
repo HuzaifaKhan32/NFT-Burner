@@ -3,6 +3,7 @@ import { ASSET_IMAGES } from '../data/mockData';
 import { NFTItem, ThemeMode, WalletState } from '../types';
 import { soundFX } from '../utils/audio';
 import { Sparkles, Check, AlertCircle, Plus } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface BurnVaultInterfaceProps {
   nfts: NFTItem[];
@@ -56,11 +57,17 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
 
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
         {/* Main Vault Interface Glass Card */}
-        <div className={`w-full rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 ${
-          themeMode === 'dark'
-            ? 'glass-sharp-gold text-[#e5e2e1]'
-            : 'glass-sharp-light text-[#1a150e]'
-        }`}>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-70px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className={`w-full rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 ${
+            themeMode === 'dark'
+              ? 'glass-sharp-gold text-[#e5e2e1]'
+              : 'glass-sharp-light text-[#1a150e]'
+          }`}
+        >
           {/* Interface Header */}
           <div className={`p-8 md:p-10 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 ${
             themeMode === 'dark' ? 'bg-black/40 border-white/10' : 'bg-white/25 border-white/40'
@@ -126,12 +133,16 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
 
           {/* Museum-Grade Art Grid */}
           <div className="p-8 md:p-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 min-h-[360px]">
-            {eligibleNfts.map(nft => {
+            {eligibleNfts.map((nft, idx) => {
               const isSelected = !!nft.isSelected;
 
               return (
-                <div
+                <motion.div
                   key={nft.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: idx * 0.08 }}
                   onClick={() => {
                     soundFX.playClick();
                     onToggleSelectNft(nft.id);
@@ -189,7 +200,7 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
                       {nft.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -199,11 +210,17 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
             themeMode === 'dark' ? 'bg-black/40 border-white/10' : 'bg-white/25 border-white/40'
           }`}>
             {/* Irreversible Action Warning Box */}
-            <div className={`w-full max-w-xl p-5 rounded-2xl border-2 flex items-start gap-4 mb-8 backdrop-blur-xl ${
-              themeMode === 'dark'
-                ? 'bg-[#3b1212]/90 border-[#ff6b6b]/60 shadow-[0_0_25px_rgba(255,107,107,0.18)]'
-                : 'bg-[#fef2f2]/85 border-[#ef4444]/60 shadow-md'
-            }`}>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className={`w-full max-w-xl p-5 rounded-2xl border-2 flex items-start gap-4 mb-8 backdrop-blur-xl ${
+                themeMode === 'dark'
+                  ? 'bg-[#3b1212]/90 border-[#ff6b6b]/60 shadow-[0_0_25px_rgba(255,107,107,0.18)]'
+                  : 'bg-[#fef2f2]/85 border-[#ef4444]/60 shadow-md'
+              }`}
+            >
               <div className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                 themeMode === 'dark'
                   ? 'bg-[#ff6b6b]/20 border-[#ff6b6b]/50 text-[#ff8f8f]'
@@ -223,10 +240,12 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
                   This action is permanent and cannot be reversed. The selected original pieces will be permanently surrendered and dissolved into particle light to forge your new artifact.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Transform Trigger Button */}
-            <button
+            <motion.button
+              whileHover={{ scale: selectedCount > 0 ? 1.02 : 1 }}
+              whileTap={{ scale: selectedCount > 0 ? 0.98 : 1 }}
               onClick={handleTransformClick}
               disabled={selectedCount === 0}
               className={`w-full max-w-xl px-8 py-4.5 rounded-full text-xs font-semibold tracking-[0.25em] uppercase transition-all shadow-xl flex items-center justify-center gap-3 ${
@@ -243,9 +262,9 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
                   ? `TRANSFORM ${selectedCount} SELECTED ${selectedCount === 1 ? 'WORK' : 'WORKS'}`
                   : 'SELECT WORKS TO TRANSFORM'}
               </span>
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

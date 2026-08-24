@@ -2,6 +2,7 @@ import React from 'react';
 import { ASSET_IMAGES } from '../data/mockData';
 import { ThemeMode } from '../types';
 import { soundFX } from '../utils/audio';
+import { motion } from 'motion/react';
 
 interface HeroSectionProps {
   themeMode: ThemeMode;
@@ -20,10 +21,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     >
       {/* 1. Pure Image Background with Bottom Edge Blur */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <img
+        <motion.img
+          initial={{ scale: 1.08, opacity: 0.8 }}
+          animate={{ scale: 1.01, opacity: 1 }}
+          transition={{ duration: 1.4, ease: "easeOut" }}
           src={ASSET_IMAGES.heroBg}
           alt="Sanctuary Meadow Landscape"
-          className="w-full h-full object-cover object-center image-edge-blur-bottom scale-[1.01]"
+          className="w-full h-full object-cover object-center image-edge-blur-bottom"
         />
 
         {/* Dark overlay applied strictly in Dark Mode only */}
@@ -37,37 +41,62 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
         {/* Glass Card Container with Enhanced Glassmorphism */}
-        <div className={`rounded-3xl p-8 md:p-14 flex flex-col items-center text-center max-w-3xl w-full transition-all duration-300 ${
-          themeMode === 'dark'
-            ? 'glass-sharp-gold text-[#e5e2e1]'
-            : 'glass-sharp-light text-[#1a150e]'
-        }`}>
-          {/* Status Badge */}
-          <div className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mb-8 border transition-all ${
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className={`rounded-3xl p-8 md:p-14 flex flex-col items-center text-center max-w-3xl w-full transition-all duration-300 ${
             themeMode === 'dark'
-              ? 'bg-black/50 border-[#e9c176]/30 text-[#e9c176]'
-              : 'bg-[#775a19]/10 border-[#775a19]/25 text-[#775a19]'
-          }`}>
+              ? 'glass-sharp-gold text-[#e5e2e1]'
+              : 'glass-sharp-light text-[#1a150e]'
+          }`}
+        >
+          {/* Status Badge */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mb-8 border transition-all ${
+              themeMode === 'dark'
+                ? 'bg-black/50 border-[#e9c176]/30 text-[#e9c176]'
+                : 'bg-[#775a19]/10 border-[#775a19]/25 text-[#775a19]'
+            }`}
+          >
             <span className="w-2 h-2 rounded-full bg-[#e9c176] animate-pulse" />
             <span className="text-xs font-bold tracking-[0.2em] uppercase">
               THE VAULT IS OPEN
             </span>
-          </div>
+          </motion.div>
 
           {/* Editorial Headline */}
-          <h1 className="font-serif-heading text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.15] mb-6">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="font-serif-heading text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.15] mb-6"
+          >
             Breathe Life Into Your Digital Legacy.
-          </h1>
+          </motion.h1>
 
           {/* Description with High Contrast Readability */}
-          <p className={`text-base sm:text-lg max-w-2xl leading-relaxed mb-10 font-sans ${
-            themeMode === 'dark' ? 'text-white/80' : 'text-[#383124] font-normal'
-          }`}>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className={`text-base sm:text-lg max-w-2xl leading-relaxed mb-10 font-sans ${
+              themeMode === 'dark' ? 'text-white/80' : 'text-[#383124] font-normal'
+            }`}
+          >
             Aurelian Mist is a sanctuary for artistic transformation. Surrender your dormant original artworks to forge luminous, nature-inspired digital artifacts through deliberate metamorphosis.
-          </p>
+          </motion.p>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+          >
             <button
               onClick={() => {
                 soundFX.playClick();
@@ -95,15 +124,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             >
               EXPLORE GALLERY
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Metrics Counter Bar */}
-        <div className={`mt-12 flex flex-wrap justify-center items-center gap-x-10 gap-y-4 px-8 py-3.5 rounded-full transition-all duration-300 ${
-          themeMode === 'dark'
-            ? 'glass-sharp text-white'
-            : 'glass-sharp-light text-[#1a150e]'
-        }`}>
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className={`mt-12 flex flex-wrap justify-center items-center gap-x-10 gap-y-4 px-8 py-3.5 rounded-full transition-all duration-300 ${
+            themeMode === 'dark'
+              ? 'glass-sharp text-white'
+              : 'glass-sharp-light text-[#1a150e]'
+          }`}
+        >
           <div className="flex items-center gap-3">
             <span className="font-serif-heading text-2xl sm:text-3xl font-semibold">
               14.2k
@@ -129,7 +163,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               Active Creators
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { NavigationTab, ThemeMode, WalletState } from '../types';
 import { ASSET_IMAGES } from '../data/mockData';
 import { soundFX } from '../utils/audio';
-import { Volume2, VolumeX, Moon, Sun, Menu, X, Wallet, User } from 'lucide-react';
+import { Moon, Sun, Menu, X, Wallet, User } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
   activeTab: NavigationTab;
@@ -22,14 +23,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenWalletModal
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMuted, setIsMuted] = useState(soundFX.getMuted());
-
-  const toggleMute = () => {
-    const nextMute = !isMuted;
-    setIsMuted(nextMute);
-    soundFX.setMuted(nextMute);
-    if (!nextMute) soundFX.playClick();
-  };
 
   const handleTabClick = (tab: NavigationTab) => {
     soundFX.playClick();
@@ -48,18 +41,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         ? 'bg-black/40 backdrop-blur-2xl border-b border-white/10' 
         : 'bg-white/40 backdrop-blur-2xl border-b border-white/50 shadow-sm text-[#1a150e]'
     }`}>
-      <div className="h-20 max-w-7xl mx-auto px-5 lg:px-12 flex items-center justify-between">
+      <div className="h-16 sm:h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
         {/* Brand Logo & Name */}
         <div 
           onClick={() => handleTabClick('burn-vault')}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer group"
         >
           <img 
             src={ASSET_IMAGES.logo} 
             alt="Aurelian Compass Logo" 
-            className="h-8 w-auto object-contain transition-transform duration-300 group-hover:rotate-45"
+            className="h-6 sm:h-7 md:h-8 w-auto object-contain transition-transform duration-300 group-hover:rotate-45"
           />
-          <span className={`font-serif-heading text-xl lg:text-2xl tracking-[0.25em] uppercase transition-colors ${
+          <span className={`font-serif-heading text-sm sm:text-base md:text-xl lg:text-2xl tracking-[0.16em] sm:tracking-[0.25em] uppercase font-semibold transition-colors truncate ${
             themeMode === 'dark' ? 'text-white group-hover:text-[#e9c176]' : 'text-[#1a150e] group-hover:text-[#775a19]'
           }`}>
             AURELIAN
@@ -67,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-10 lg:gap-14">
+        <nav className="hidden md:flex items-center gap-8 lg:gap-14">
           <button
             onClick={() => handleTabClick('gallery')}
             className={`font-semibold text-xs tracking-[0.2em] uppercase transition-all py-1 border-b-2 cursor-pointer ${
@@ -101,25 +94,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right Actions: Controls & Wallet */}
-        <div className="flex items-center gap-3 lg:gap-5">
-          {/* Mute Audio Toggle */}
-          <button 
-            onClick={toggleMute}
-            title={isMuted ? "Unmute Ambient Sound" : "Mute Sound"}
-            className={`p-2 rounded-full transition-colors ${
-              themeMode === 'dark' 
-                ? 'bg-white/5 hover:bg-white/15 text-white/80' 
-                : 'bg-black/5 hover:bg-black/10 text-[#4e4639]'
-            }`}
-          >
-            {isMuted ? <VolumeX size={17} /> : <Volume2 size={17} />}
-          </button>
-
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-5">
           {/* Dark / Light Theme Toggle */}
           <button 
             onClick={toggleTheme}
             title={themeMode === 'dark' ? "Switch to Aurelian Light Mode" : "Switch to Aurelian Night Mode"}
-            className={`p-2 rounded-full transition-colors ${
+            className={`p-2 rounded-full transition-all duration-200 cursor-pointer ${
               themeMode === 'dark' 
                 ? 'bg-white/5 hover:bg-white/15 text-[#e9c176]' 
                 : 'bg-black/5 hover:bg-black/10 text-[#775a19]'
@@ -134,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               soundFX.playClick();
               onOpenWalletModal();
             }}
-            className={`hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all shadow-lg cursor-pointer ${
+            className={`hidden sm:flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all shadow-lg cursor-pointer ${
               walletState.isConnected
                 ? themeMode === 'dark'
                   ? 'bg-[#e9c176]/20 border border-[#e9c176]/40 text-[#e9c176] hover:bg-[#e9c176]/30 backdrop-blur-md'
@@ -156,61 +136,123 @@ export const Navbar: React.FC<NavbarProps> = ({
               soundFX.playClick();
               onOpenWalletModal();
             }}
-            className={`w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-105 shadow-md ${
+            className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-105 shadow-md ${
               themeMode === 'dark' ? 'bg-[#e9c176] text-[#412d00]' : 'bg-[#775a19] text-white'
             }`}
             title="Collector Profile & Solana Wallet"
           >
-            <User size={18} />
+            <User size={16} />
           </div>
 
           {/* Mobile Hamburger Menu Toggle */}
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-current"
+            onClick={() => {
+              soundFX.playClick();
+              setIsMobileMenuOpen(!isMobileMenuOpen);
+            }}
+            aria-label="Toggle Navigation Menu"
+            className={`md:hidden p-2 rounded-xl transition-colors cursor-pointer ${
+              themeMode === 'dark' ? 'text-white hover:bg-white/10' : 'text-[#1a150e] hover:bg-black/5'
+            }`}
           >
-            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {isMobileMenuOpen && (
-        <div className={`md:hidden border-b px-6 py-6 space-y-4 backdrop-blur-2xl ${
-          themeMode === 'dark' ? 'bg-[#121212]/95 border-white/10' : 'bg-white/90 border-[#7f7667]/20'
-        }`}>
-          <button
-            onClick={() => handleTabClick('gallery')}
-            className="block w-full text-left py-2 text-sm font-semibold tracking-widest uppercase"
+      {/* Mobile Drawer with Fluid Dropdown Animation */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0, y: -10 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -10 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className={`md:hidden border-b overflow-hidden shadow-2xl backdrop-blur-2xl ${
+              themeMode === 'dark' 
+                ? 'bg-[#121212]/95 border-white/10 text-white' 
+                : 'bg-white/95 border-black/10 text-[#1a150e]'
+            }`}
           >
-            GALLERY
-          </button>
-          <button
-            onClick={() => handleTabClick('burn-vault')}
-            className="block w-full text-left py-2 text-sm font-semibold tracking-widest uppercase text-[#e9c176]"
-          >
-            METAMORPHOSIS
-          </button>
-          <button
-            onClick={() => handleTabClick('marketplace')}
-            className="block w-full text-left py-2 text-sm font-semibold tracking-widest uppercase"
-          >
-            MARKETPLACE
-          </button>
+            <motion.div 
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
+                closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } }
+              }}
+              className="px-6 py-6 space-y-4"
+            >
+              <motion.button
+                variants={{
+                  open: { opacity: 1, x: 0 },
+                  closed: { opacity: 0, x: -12 }
+                }}
+                onClick={() => handleTabClick('gallery')}
+                className={`block w-full text-left py-2 text-xs sm:text-sm font-semibold tracking-widest uppercase cursor-pointer ${
+                  activeTab === 'gallery'
+                    ? themeMode === 'dark' ? 'text-[#e9c176]' : 'text-[#775a19]'
+                    : ''
+                }`}
+              >
+                GALLERY
+              </motion.button>
+              
+              <motion.button
+                variants={{
+                  open: { opacity: 1, x: 0 },
+                  closed: { opacity: 0, x: -12 }
+                }}
+                onClick={() => handleTabClick('burn-vault')}
+                className={`block w-full text-left py-2 text-xs sm:text-sm font-semibold tracking-widest uppercase cursor-pointer ${
+                  activeTab === 'burn-vault'
+                    ? themeMode === 'dark' ? 'text-[#e9c176]' : 'text-[#775a19]'
+                    : ''
+                }`}
+              >
+                METAMORPHOSIS
+              </motion.button>
 
-          <button
-            onClick={() => {
-              onOpenWalletModal();
-              setIsMobileMenuOpen(false);
-            }}
-            className="w-full mt-4 py-3 bg-[#e9c176] text-black rounded-full text-xs font-semibold tracking-wider uppercase text-center cursor-pointer"
-          >
-            {walletState.isConnected && walletState.address
-              ? `${walletState.address.slice(0, 4)}...${walletState.address.slice(-4)}`
-              : 'CONNECT SOLANA WALLET'}
-          </button>
-        </div>
-      )}
+              <motion.button
+                variants={{
+                  open: { opacity: 1, x: 0 },
+                  closed: { opacity: 0, x: -12 }
+                }}
+                onClick={() => handleTabClick('marketplace')}
+                className={`block w-full text-left py-2 text-xs sm:text-sm font-semibold tracking-widest uppercase cursor-pointer ${
+                  activeTab === 'marketplace'
+                    ? themeMode === 'dark' ? 'text-[#e9c176]' : 'text-[#775a19]'
+                    : ''
+                }`}
+              >
+                MARKETPLACE
+              </motion.button>
+
+              <motion.button
+                variants={{
+                  open: { opacity: 1, y: 0 },
+                  closed: { opacity: 0, y: 10 }
+                }}
+                onClick={() => {
+                  soundFX.playClick();
+                  onOpenWalletModal();
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full mt-4 py-3 rounded-full text-xs font-semibold tracking-wider uppercase text-center cursor-pointer shadow-md transition-all ${
+                  themeMode === 'dark'
+                    ? 'bg-[#e9c176] text-[#2c1d00] hover:bg-[#ffdea5]'
+                    : 'bg-[#775a19] text-white hover:bg-[#5d4201]'
+                }`}
+              >
+                {walletState.isConnected && walletState.address
+                  ? `${walletState.address.slice(0, 4)}...${walletState.address.slice(-4)} (CONNECTED)`
+                  : 'CONNECT SOLANA WALLET'}
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

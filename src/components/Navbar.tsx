@@ -43,10 +43,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-colors duration-300 ${
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       themeMode === 'dark' 
-        ? 'bg-black/30 backdrop-blur-md border-b border-white/10' 
-        : 'bg-[#fff8f3]/60 backdrop-blur-md border-b border-[#7f7667]/20 text-[#1e1b16]'
+        ? 'bg-black/40 backdrop-blur-2xl border-b border-white/10' 
+        : 'bg-white/40 backdrop-blur-2xl border-b border-white/50 shadow-sm text-[#1a150e]'
     }`}>
       <div className="h-20 max-w-7xl mx-auto px-5 lg:px-12 flex items-center justify-between">
         {/* Brand Logo & Name */}
@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="h-8 w-auto object-contain transition-transform duration-300 group-hover:rotate-45"
           />
           <span className={`font-serif-heading text-xl lg:text-2xl tracking-[0.25em] uppercase transition-colors ${
-            themeMode === 'dark' ? 'text-white group-hover:text-[#e9c176]' : 'text-[#1e1b16] group-hover:text-[#775a19]'
+            themeMode === 'dark' ? 'text-white group-hover:text-[#e9c176]' : 'text-[#1a150e] group-hover:text-[#775a19]'
           }`}>
             AURELIAN
           </span>
@@ -70,30 +70,30 @@ export const Navbar: React.FC<NavbarProps> = ({
         <nav className="hidden md:flex items-center gap-10 lg:gap-14">
           <button
             onClick={() => handleTabClick('gallery')}
-            className={`font-semibold text-xs tracking-[0.2em] uppercase transition-all py-1 border-b-2 ${
+            className={`font-semibold text-xs tracking-[0.2em] uppercase transition-all py-1 border-b-2 cursor-pointer ${
               activeTab === 'gallery'
                 ? themeMode === 'dark' ? 'text-[#e9c176] border-[#e9c176]' : 'text-[#775a19] border-[#775a19]'
-                : themeMode === 'dark' ? 'text-white/70 border-transparent hover:text-white' : 'text-[#4e4639] border-transparent hover:text-[#1e1b16]'
+                : themeMode === 'dark' ? 'text-white/70 border-transparent hover:text-white' : 'text-[#383124] border-transparent hover:text-[#1a150e]'
             }`}
           >
             GALLERY
           </button>
           <button
             onClick={() => handleTabClick('burn-vault')}
-            className={`font-semibold text-xs tracking-[0.2em] uppercase transition-all py-1 border-b-2 ${
+            className={`font-semibold text-xs tracking-[0.2em] uppercase transition-all py-1 border-b-2 cursor-pointer ${
               activeTab === 'burn-vault'
                 ? themeMode === 'dark' ? 'text-[#e9c176] border-[#e9c176]' : 'text-[#775a19] border-[#775a19]'
-                : themeMode === 'dark' ? 'text-white/70 border-transparent hover:text-white' : 'text-[#4e4639] border-transparent hover:text-[#1e1b16]'
+                : themeMode === 'dark' ? 'text-white/70 border-transparent hover:text-white' : 'text-[#383124] border-transparent hover:text-[#1a150e]'
             }`}
           >
             METAMORPHOSIS
           </button>
           <button
             onClick={() => handleTabClick('marketplace')}
-            className={`font-semibold text-xs tracking-[0.2em] uppercase transition-all py-1 border-b-2 ${
+            className={`font-semibold text-xs tracking-[0.2em] uppercase transition-all py-1 border-b-2 cursor-pointer ${
               activeTab === 'marketplace'
                 ? themeMode === 'dark' ? 'text-[#e9c176] border-[#e9c176]' : 'text-[#775a19] border-[#775a19]'
-                : themeMode === 'dark' ? 'text-white/70 border-transparent hover:text-white' : 'text-[#4e4639] border-transparent hover:text-[#1e1b16]'
+                : themeMode === 'dark' ? 'text-white/70 border-transparent hover:text-white' : 'text-[#383124] border-transparent hover:text-[#1a150e]'
             }`}
           >
             MARKETPLACE
@@ -128,17 +128,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             {themeMode === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
 
-          {/* Connect Wallet Button */}
+          {/* Connect Wallet Button (Solana Phantom) */}
           <button
             onClick={() => {
               soundFX.playClick();
               onOpenWalletModal();
             }}
-            className={`hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all shadow-lg ${
+            className={`hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all shadow-lg cursor-pointer ${
               walletState.isConnected
                 ? themeMode === 'dark'
-                  ? 'bg-[#e9c176]/20 border border-[#e9c176]/40 text-[#e9c176] hover:bg-[#e9c176]/30'
-                  : 'bg-[#775a19]/15 border border-[#775a19]/30 text-[#775a19] hover:bg-[#775a19]/25'
+                  ? 'bg-[#e9c176]/20 border border-[#e9c176]/40 text-[#e9c176] hover:bg-[#e9c176]/30 backdrop-blur-md'
+                  : 'bg-[#775a19]/15 border border-[#775a19]/30 text-[#775a19] hover:bg-[#775a19]/25 backdrop-blur-md'
                 : themeMode === 'dark'
                   ? 'bg-[#e9c176] text-[#412d00] hover:bg-[#ffdea5] shadow-[#e9c176]/10'
                   : 'bg-[#775a19] text-white hover:bg-[#5d4201] shadow-[#775a19]/15'
@@ -146,8 +146,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Wallet size={14} />
             {walletState.isConnected && walletState.address
-              ? `${walletState.address.slice(0, 6)}...${walletState.address.slice(-4)}`
-              : 'CONNECT PHANTOM'}
+              ? `${walletState.address.slice(0, 4)}...${walletState.address.slice(-4)}`
+              : 'CONNECT SOLANA'}
           </button>
 
           {/* User Profile Avatar */}
@@ -156,10 +156,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               soundFX.playClick();
               onOpenWalletModal();
             }}
-            className={`w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-105 ${
+            className={`w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-105 shadow-md ${
               themeMode === 'dark' ? 'bg-[#e9c176] text-[#412d00]' : 'bg-[#775a19] text-white'
             }`}
-            title="Collector Profile & Phantom Wallet"
+            title="Collector Profile & Solana Wallet"
           >
             <User size={18} />
           </div>
@@ -176,8 +176,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className={`md:hidden border-b px-6 py-6 space-y-4 ${
-          themeMode === 'dark' ? 'bg-[#121212]/95 border-white/10' : 'bg-[#fff8f3]/95 border-[#7f7667]/20'
+        <div className={`md:hidden border-b px-6 py-6 space-y-4 backdrop-blur-2xl ${
+          themeMode === 'dark' ? 'bg-[#121212]/95 border-white/10' : 'bg-white/90 border-[#7f7667]/20'
         }`}>
           <button
             onClick={() => handleTabClick('gallery')}
@@ -203,9 +203,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               onOpenWalletModal();
               setIsMobileMenuOpen(false);
             }}
-            className="w-full mt-4 py-3 bg-[#e9c176] text-black rounded-full text-xs font-semibold tracking-wider uppercase text-center"
+            className="w-full mt-4 py-3 bg-[#e9c176] text-black rounded-full text-xs font-semibold tracking-wider uppercase text-center cursor-pointer"
           >
-            {walletState.isConnected ? walletState.address : 'CONNECT PHANTOM WALLET'}
+            {walletState.isConnected && walletState.address
+              ? `${walletState.address.slice(0, 4)}...${walletState.address.slice(-4)}`
+              : 'CONNECT SOLANA WALLET'}
           </button>
         </div>
       )}

@@ -21,8 +21,8 @@ export default function App() {
 
   const [walletState, setWalletState] = useState<WalletState>({
     isConnected: true,
-    address: 'Phan7...8A21',
-    ethBalance: 12.45,
+    address: 'HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH',
+    ethBalance: 24.85,
     aurelBalance: 1420
   });
 
@@ -83,12 +83,12 @@ export default function App() {
     setNfts(prev => [newNft, ...prev]);
   };
 
-  // Wallet Handlers (Phantom only)
+  // Wallet Handlers (Phantom Solana)
   const handleConnectWallet = (providerName: string) => {
     setWalletState({
       isConnected: true,
-      address: `Phan${Math.random().toString(36).slice(2, 4).toUpperCase()}...${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
-      ethBalance: 12.45,
+      address: 'HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH',
+      ethBalance: 24.85,
       aurelBalance: 2000
     });
     setIsWalletModalOpen(false);

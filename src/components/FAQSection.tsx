@@ -18,43 +18,46 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
 
   return (
     <section 
-      className="relative w-full py-28 px-5 lg:px-12 bg-cover bg-fixed bg-center transition-all duration-500 overflow-hidden"
-      style={{ backgroundImage: `url("${ASSET_IMAGES.faqBg}")` }}
+      className="relative w-full py-28 px-5 lg:px-12 overflow-hidden"
     >
-      {/* 1. Base dark tint */}
-      <div className={`absolute inset-0 transition-opacity duration-500 ${
-        themeMode === 'dark' ? 'bg-black/55 backdrop-brightness-85' : 'bg-[#101412]/35 backdrop-brightness-95'
-      }`} />
+      {/* 1. Pure Image Background with Top and Bottom Edge Blur */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <img
+          src={ASSET_IMAGES.faqBg}
+          alt="Misty Forest Landscape"
+          className="w-full h-full object-cover object-center image-edge-blur-both scale-[1.01]"
+        />
 
-      {/* 2. Top Edge Fade (blending seamlessly from vault section) */}
-      <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#060a08] via-[#060a08]/50 to-transparent pointer-events-none z-[1]" />
+        {/* Dark overlay applied strictly in Dark Mode only */}
+        {themeMode === 'dark' && (
+          <div className="absolute inset-0 bg-black/60 backdrop-brightness-75 transition-opacity duration-500" />
+        )}
+      </div>
 
-      {/* 3. Radial Vignette for depth */}
-      <div className="absolute inset-0 section-vignette pointer-events-none z-[1]" />
-
-      {/* 4. Bottom Edge Fade (blending directly into the footer) */}
-      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-b from-transparent via-[#141210]/80 to-[#141210] pointer-events-none z-[1]" />
+      {/* Edge Blur Seams */}
+      <div className="edge-blur-seam-top" />
+      <div className="edge-blur-seam-bottom" />
 
       <div className="relative z-10 max-w-4xl mx-auto">
         {/* Title */}
         <div className="text-center mb-16">
           <h2 className={`font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 ${
-            themeMode === 'dark' ? 'text-[#e5e2e1]' : 'text-[#1e1b16]'
+            themeMode === 'dark' ? 'text-[#e5e2e1]' : 'text-[#1a150e]'
           }`}>
             Wisdom of the Mist
           </h2>
-          <p className={`text-base sm:text-lg max-w-2xl mx-auto ${
-            themeMode === 'dark' ? 'text-[#d1c5b4]' : 'text-[#4e4639]'
+          <p className={`text-base sm:text-lg max-w-2xl mx-auto font-sans ${
+            themeMode === 'dark' ? 'text-[#d1c5b4]' : 'text-[#383124]'
           }`}>
             Understanding the philosophy and mechanics of the Aurelian Burn.
           </p>
         </div>
 
-        {/* Glass Accordion Container */}
+        {/* Glass Accordion Container with Enhanced Glassmorphism */}
         <div className={`rounded-3xl p-6 sm:p-12 shadow-2xl transition-all duration-300 ${
           themeMode === 'dark'
             ? 'glass-sharp text-white'
-            : 'bg-white/80 border border-white/60 shadow-xl backdrop-blur-md text-[#1e1b16]'
+            : 'glass-sharp-light text-[#1a150e]'
         }`}>
           <div className="space-y-6">
             {FAQS.map(faq => {
@@ -64,19 +67,25 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
                 <div 
                   key={faq.id}
                   onClick={() => toggleFaq(faq.id)}
-                  className="border-b border-white/10 pb-6 cursor-pointer group"
+                  className={`border-b pb-6 cursor-pointer group transition-colors ${
+                    themeMode === 'dark' ? 'border-white/10' : 'border-black/10'
+                  }`}
                 >
                   <div className="flex justify-between items-center gap-4">
                     <h4 className={`font-serif-heading text-lg sm:text-xl font-medium transition-colors ${
                       isOpen
-                        ? 'text-[#e9c176]'
-                        : themeMode === 'dark' ? 'text-white group-hover:text-[#e9c176]' : 'text-[#1e1b16] group-hover:text-[#775a19]'
+                        ? themeMode === 'dark' ? 'text-[#e9c176]' : 'text-[#775a19]'
+                        : themeMode === 'dark' 
+                          ? 'text-white group-hover:text-[#e9c176]' 
+                          : 'text-[#1a150e] group-hover:text-[#775a19]'
                     }`}>
                       {faq.question}
                     </h4>
 
                     <div className={`p-1.5 rounded-full transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 text-[#e9c176]' : 'text-white/60'
+                      isOpen 
+                        ? themeMode === 'dark' ? 'rotate-180 text-[#e9c176]' : 'rotate-180 text-[#775a19]' 
+                        : themeMode === 'dark' ? 'text-white/60' : 'text-[#775a19]/70'
                     }`}>
                       <ChevronDown size={20} />
                     </div>
@@ -84,8 +93,8 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
 
                   {/* Expandable Body */}
                   {isOpen && (
-                    <div className="mt-4 text-sm sm:text-base leading-relaxed opacity-90 animate-fade-in font-sans">
-                      <p className={themeMode === 'dark' ? 'text-white/80' : 'text-[#4e4639]'}>
+                    <div className="mt-4 text-sm sm:text-base leading-relaxed opacity-95 animate-fade-in font-sans">
+                      <p className={themeMode === 'dark' ? 'text-white/80' : 'text-[#383124] font-medium'}>
                         {faq.answer}
                       </p>
                     </div>

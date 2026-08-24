@@ -1,11 +1,15 @@
 import { NFTItem, Artifact } from '../types';
+import heroBgImg from '../assets/images/hero_farm_landscape_1787311825390.jpg';
+import vaultBgImg from '../assets/images/vault_river_landscape_1787311839006.jpg';
+import faqBgImg from '../assets/images/faq_forest_mist_1787311849645.jpg';
+import stepsBgImg from '../assets/images/steps_autumn_canopy_1787311860222.jpg';
 
 export const ASSET_IMAGES = {
   logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop",
-  heroBg: "/src/assets/images/hero_farm_landscape_1787311825390.jpg",
-  vaultBg: "/src/assets/images/vault_river_landscape_1787311839006.jpg",
-  faqBg: "/src/assets/images/faq_forest_mist_1787311849645.jpg",
-  stepsBg: "/src/assets/images/steps_autumn_canopy_1787311860222.jpg",
+  heroBg: heroBgImg,
+  vaultBg: vaultBgImg,
+  faqBg: faqBgImg,
+  stepsBg: stepsBgImg,
   nft1: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop",
   nft2: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
   nft3: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=600&auto=format&fit=crop",

@@ -11,7 +11,7 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
   const steps = [
     {
       step: "01. CONNECT",
-      desc: "Link your Phantom wallet to access your curated vault.",
+      desc: "Link your Phantom (Solana) wallet to access your curated vault.",
       icon: <span className="text-2xl">👻</span>
     },
     {
@@ -39,42 +39,51 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
 
   return (
     <section 
-      className="relative w-full py-28 px-5 lg:px-12 bg-cover bg-fixed bg-center transition-all duration-500 overflow-hidden"
-      style={{ backgroundImage: `url("${ASSET_IMAGES.stepsBg}")` }}
+      className="relative w-full py-28 px-5 lg:px-12 overflow-hidden"
     >
-      {/* 1. Base dark tint */}
-      <div className={`absolute inset-0 transition-opacity duration-500 ${
-        themeMode === 'dark' ? 'bg-black/55 backdrop-brightness-85' : 'bg-[#181510]/35 backdrop-brightness-95'
-      }`} />
+      {/* 1. Pure Image Background with Top and Bottom Edge Blur */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <img
+          src={ASSET_IMAGES.stepsBg}
+          alt="Ritual Canopy"
+          className="w-full h-full object-cover object-center image-edge-blur-both scale-[1.01]"
+        />
 
-      {/* 2. Top Edge Fade (blending seamlessly from Hero) */}
-      <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#0d0c0a] via-[#0d0c0a]/50 to-transparent pointer-events-none z-[1]" />
+        {/* Dark overlay applied strictly in Dark Mode only */}
+        {themeMode === 'dark' && (
+          <div className="absolute inset-0 bg-black/60 backdrop-brightness-75 transition-opacity duration-500" />
+        )}
+      </div>
 
-      {/* 3. Radial Vignette for rich depth */}
-      <div className="absolute inset-0 section-vignette pointer-events-none z-[1]" />
-
-      {/* 4. Bottom Edge Fade (blending smoothly into Vault) */}
-      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-b from-transparent via-[#0a0c0b]/60 to-[#0a0c0b] pointer-events-none z-[1]" />
+      {/* Edge Blur Seams */}
+      <div className="edge-blur-seam-top" />
+      <div className="edge-blur-seam-bottom" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 text-[#e5e2e1]">
+          <h2 className={`font-serif-heading text-3xl sm:text-4xl lg:text-5xl font-medium mb-4 ${
+            themeMode === 'dark' ? 'text-[#e5e2e1]' : 'text-[#1a150e]'
+          }`}>
             The Ritual of Metamorphosis
           </h2>
-          <p className="text-base sm:text-lg max-w-2xl mx-auto text-[#d1c5b4]">
+          <p className={`text-base sm:text-lg max-w-2xl mx-auto font-sans ${
+            themeMode === 'dark' ? 'text-[#d1c5b4]' : 'text-[#383124]'
+          }`}>
             A serene five-step journey transitioning physical-digital aesthetic energy into rare botanical artifacts.
           </p>
         </div>
 
         {/* Glass Panel Container */}
-        <div className={`rounded-3xl p-8 lg:p-14 shadow-2xl relative ${
+        <div className={`rounded-3xl p-8 lg:p-14 shadow-2xl relative transition-all duration-300 ${
           themeMode === 'dark'
             ? 'glass-sharp text-white'
-            : 'bg-black/60 border border-white/20 shadow-2xl backdrop-blur-md text-white'
+            : 'glass-sharp-light text-[#1a150e]'
         }`}>
           {/* Connector Line on Desktop */}
-          <div className="hidden md:block absolute top-1/2 left-12 right-12 h-px bg-[#e9c176]/20 -translate-y-6 z-0" />
+          <div className={`hidden md:block absolute top-1/2 left-12 right-12 h-px -translate-y-6 z-0 ${
+            themeMode === 'dark' ? 'bg-[#e9c176]/25' : 'bg-[#775a19]/25'
+          }`} />
 
           {/* 5 Steps Grid */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 relative z-10">
@@ -86,27 +95,27 @@ export const ProcedureSection: React.FC<ProcedureSectionProps> = ({ themeMode })
                 {/* Circle Icon Container */}
                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 shadow-lg relative ${
                   item.highlight
-                    ? 'bg-[#e9c176]/20 ring-2 ring-[#e9c176] shadow-[#e9c176]/20'
+                    ? 'bg-[#e9c176]/25 ring-2 ring-[#e9c176] shadow-[#e9c176]/30 backdrop-blur-md'
                     : themeMode === 'dark'
-                      ? 'bg-[#201f1f] border border-white/10'
-                      : 'bg-[#2c2416] text-white shadow-md'
+                      ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white'
+                      : 'bg-white/40 backdrop-blur-md border border-white/60 text-[#775a19] shadow-md'
                 }`}>
                   {item.highlight && (
-                    <div className="absolute inset-0 rounded-full bg-[#e9c176]/20 animate-ping" />
+                    <div className="absolute inset-0 rounded-full bg-[#e9c176]/25 animate-ping" />
                   )}
                   {item.icon}
                 </div>
 
                 {/* Step Title */}
-                <span className={`text-xs font-semibold tracking-[0.2em] mb-2 uppercase ${
-                  themeMode === 'dark' ? 'text-[#e9c176]' : 'text-[#2c2416]'
+                <span className={`text-xs font-bold tracking-[0.2em] mb-2 uppercase ${
+                  themeMode === 'dark' ? 'text-[#e9c176]' : 'text-[#775a19]'
                 }`}>
                   {item.step}
                 </span>
 
                 {/* Step Description */}
-                <p className={`text-xs sm:text-sm leading-relaxed ${
-                  themeMode === 'dark' ? 'text-white/70' : 'text-[#4e4639]'
+                <p className={`text-xs sm:text-sm leading-relaxed font-sans ${
+                  themeMode === 'dark' ? 'text-white/80' : 'text-[#383124] font-medium'
                 }`}>
                   {item.desc}
                 </p>

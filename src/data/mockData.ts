@@ -1,8 +1,8 @@
 import { NFTItem, Artifact } from '../types';
-import heroBgImg from '../assets/images/hero_farm_landscape_1787311825390.jpg';
-import vaultBgImg from '../assets/images/vault_river_landscape_1787311839006.jpg';
-import faqBgImg from '../assets/images/faq_forest_mist_1787311849645.jpg';
-import stepsBgImg from '../assets/images/steps_autumn_canopy_1787311860222.jpg';
+import heroBgImg from '../assets/images/gallery.webp';
+import vaultBgImg from '../assets/images/river.webp';
+import faqBgImg from '../assets/images/forest.webp';
+import stepsBgImg from '../assets/images/spring.webp';
 
 export const ASSET_IMAGES = {
   logo: "/logo/phantom.png",

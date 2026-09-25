@@ -72,9 +72,11 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ themeMode }) => {
                       {faq.question}
                     </h4>
 
-                    <div className={`p-1.5 rounded-full transition-transform duration-300 ${
-                      isOpen ? 'rotate-180' : ''
-                    }`}
+                    <div className={
+                      isOpen
+                        ? "p-1.5 rounded-full transition-transform duration-300 rotate-180"
+                        : "p-1.5 rounded-full transition-transform duration-300"
+                    }
                       style={{ color: isOpen ? 'var(--color-accent-gold)' : 'var(--color-text-secondary)' }}
                     >
                       <ChevronDown size={20} />

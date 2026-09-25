@@ -111,9 +111,11 @@ export const BurnVaultInterface: React.FC<BurnVaultInterfaceProps> = ({
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: idx * 0.08 }}
                   onClick={() => onToggleSelectNft(nft.id)}
-                  className={`card card-interactive surface-glass flex flex-col overflow-hidden ${
-                    isSelected ? 'card-selected' : ''
-                  }`}
+                  className={
+                    isSelected
+                      ? "card card-interactive surface-glass flex flex-col overflow-hidden card-selected"
+                      : "card card-interactive surface-glass flex flex-col overflow-hidden"
+                  }
                   style={{
                     borderRadius: 'var(--radius-md)'
                   }}

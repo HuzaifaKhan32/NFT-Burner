@@ -106,9 +106,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Connect Wallet Button (Solana Phantom) */}
           <button
             onClick={onOpenWalletModal}
-            className={`hidden sm:flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-semibold tracking-wide transition-all cursor-pointer ${
-              walletState.isConnected ? 'btn-secondary' : 'btn-primary'
-            }`}
+            className={
+              walletState.isConnected
+                ? "hidden sm:flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-semibold tracking-wide transition-all cursor-pointer btn-secondary"
+                : "hidden sm:flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-semibold tracking-wide transition-all cursor-pointer btn-primary"
+            }
           >
             <Wallet size={14} />
             {walletState.isConnected && walletState.address
@@ -134,9 +136,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
-            className={`md:hidden p-2 rounded-xl transition-colors cursor-pointer ${
-              themeMode === 'dark' ? 'text-white hover:bg-white/10' : 'text-[#1a150e] hover:bg-black/5'
-            }`}
+            className={
+              themeMode === 'dark'
+                ? "md:hidden p-2 rounded-xl transition-colors cursor-pointer text-white hover:bg-white/10"
+                : "md:hidden p-2 rounded-xl transition-colors cursor-pointer text-[#1a150e] hover:bg-black/5"
+            }
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -215,7 +219,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onOpenWalletModal();
                   setIsMobileMenuOpen(false);
                 }}
-                className={`w-full mt-4 ${walletState.isConnected ? 'btn-secondary' : 'btn-primary'} btn-pill`}
+                className={
+                  walletState.isConnected
+                    ? "w-full mt-4 btn-secondary btn-pill"
+                    : "w-full mt-4 btn-primary btn-pill"
+                }
               >
                 {walletState.isConnected && walletState.address
                   ? `${walletState.address.slice(0, 4)}...${walletState.address.slice(-4)}`

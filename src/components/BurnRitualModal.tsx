@@ -182,13 +182,13 @@ export const BurnRitualModal: React.FC<BurnRitualModalProps> = ({
                 />
 
                 {/* Radiant Core Glow */}
-                <div className={`absolute w-36 h-36 rounded-full blur-xl transition-all duration-1000 ${
+                <div className={
                   ritualStage === 'dissolve'
-                    ? 'bg-[#e9c176]/40 scale-125'
+                    ? "absolute w-36 h-36 rounded-full blur-xl transition-all duration-1000 bg-[#e9c176]/40 scale-125"
                     : ritualStage === 'crystallize'
-                      ? 'bg-amber-300/50 scale-150'
-                      : 'bg-[#ab9ff2]/25 scale-100'
-                }`} />
+                      ? "absolute w-36 h-36 rounded-full blur-xl transition-all duration-1000 bg-amber-300/50 scale-150"
+                      : "absolute w-36 h-36 rounded-full blur-xl transition-all duration-1000 bg-[#ab9ff2]/25 scale-100"
+                } />
 
                 {/* Original Artworks Dissolving into Golden Particles */}
                 <div className="relative z-10 flex items-center justify-center gap-3">

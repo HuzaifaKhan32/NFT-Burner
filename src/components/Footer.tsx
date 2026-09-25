@@ -172,25 +172,25 @@ export const Footer: React.FC<FooterProps> = ({ themeMode, setActiveTab }) => {
               </h4>
               <ul className="space-y-2.5 text-sm">
                 <li>
-                  <button onClick={() => handleNavClick('burn-vault')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => handleNavClick('burn-vault')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Transformation Vault
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleNavClick('gallery')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => handleNavClick('gallery')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Gallery
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleNavClick('marketplace')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => handleNavClick('marketplace')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Marketplace
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setActiveModal('provenance')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => setActiveModal('provenance')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Provenance
                   </button>
@@ -205,25 +205,25 @@ export const Footer: React.FC<FooterProps> = ({ themeMode, setActiveTab }) => {
               </h4>
               <ul className="space-y-2.5 text-sm">
                 <li>
-                  <button onClick={() => setActiveModal('vrf')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => setActiveModal('vrf')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     How artifacts are generated
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setActiveModal('proof')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => setActiveModal('proof')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Proof of burn
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setActiveModal('phantom')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => setActiveModal('phantom')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Wallet security
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setActiveModal('botanical')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => setActiveModal('botanical')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Artifact types
                   </button>
@@ -238,13 +238,13 @@ export const Footer: React.FC<FooterProps> = ({ themeMode, setActiveTab }) => {
               </h4>
               <ul className="space-y-2.5 text-sm">
                 <li>
-                  <button onClick={() => setActiveModal('terms')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => setActiveModal('terms')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Terms of service
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setActiveModal('privacy')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                  <button onClick={() => setActiveModal('privacy')} className="transition-colors flex items-center gap-1.5 text-left cursor-pointer hover:opacity-100" style={{ color: footerTextSecondary }}>
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
                     Privacy
                   </button>
@@ -252,7 +252,7 @@ export const Footer: React.FC<FooterProps> = ({ themeMode, setActiveTab }) => {
                 <li>
                   <a
                     href="mailto:hello@aurelianmist.xyz"
-                    className={`${linkClass} hover:opacity-100`}
+                    className="transition-colors flex items-center gap-1.5 text-left hover:opacity-100"
                     style={{ color: footerTextSecondary }}
                   >
                     <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />

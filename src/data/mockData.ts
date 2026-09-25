@@ -5,19 +5,20 @@ import faqBgImg from '../assets/images/faq_forest_mist_1787311849645.jpg';
 import stepsBgImg from '../assets/images/steps_autumn_canopy_1787311860222.jpg';
 
 export const ASSET_IMAGES = {
-  logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop",
+  logo: "/logo/phantom.png",
   heroBg: heroBgImg,
   vaultBg: vaultBgImg,
   faqBg: faqBgImg,
   stepsBg: stepsBgImg,
-  nft1: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop",
-  nft2: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
-  nft3: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=600&auto=format&fit=crop",
-  // Additional high quality nature/botanical artifacts generated
-  artifact1: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=800&auto=format&fit=crop", // Golden ethereal fern
-  artifact2: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop", // Celestial sea light
-  artifact3: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=800&auto=format&fit=crop", // Golden mist forest
-  artifact4: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=800&auto=format&fit=crop"  // Golden crystalline bloom
+  nft1: "/assets/4.webp",
+  nft2: "/assets/5.webp",
+  nft3: "/assets/6.webp",
+  nft4: "/assets/7.webp",
+  nft5: "/assets/8.webp",
+  artifact1: "/assets/9.webp",
+  artifact2: "/assets/10.webp",
+  artifact3: "/assets/4.webp",
+  artifact4: "/assets/5.webp"
 };
 
 export const INITIAL_NFTS: NFTItem[] = [
@@ -55,7 +56,7 @@ export const INITIAL_NFTS: NFTItem[] = [
     id: "nft-5",
     name: "Temporal Orbit #204",
     collection: "Chrono Guild Studies",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
+    image: ASSET_IMAGES.nft4,
     isSupported: true,
     description: "Fluid metallic ribbons suspended in zero-gravity field.",
     tokenId: "204",
@@ -65,7 +66,7 @@ export const INITIAL_NFTS: NFTItem[] = [
     id: "nft-6",
     name: "Solar Tide #708",
     collection: "Oceanic Cosmos",
-    image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop",
+    image: ASSET_IMAGES.nft5,
     isSupported: true,
     description: "Deep marine composition illuminated by solar coronal flare.",
     tokenId: "708",
@@ -99,11 +100,11 @@ export const INITIAL_ARTIFACTS: Artifact[] = [
     id: "art-102",
     name: "Solitude Over Alpine Mist",
     rarity: "Mythic",
-    image: ASSET_IMAGES.artifact3,
+    image: ASSET_IMAGES.artifact2,
     forgedAt: "1 day ago",
     transformedCount: 3,
     originalNfts: ["Genesis Study #01", "Study in Ethereal Blue", "Temporal Orbit #204"],
-    originalThumbnails: [ASSET_IMAGES.nft1, ASSET_IMAGES.nft3, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop"],
+    originalThumbnails: [ASSET_IMAGES.nft1, ASSET_IMAGES.nft3, ASSET_IMAGES.nft4],
     vrfSeed: "VRF-99A2-2F18",
     moonPhase: "Full Moon (100%)",
     priceEth: 4.20,
@@ -120,7 +121,7 @@ export const INITIAL_ARTIFACTS: Artifact[] = [
     id: "art-103",
     name: "Ethereal Bloom of Rebirth",
     rarity: "Ethereal",
-    image: ASSET_IMAGES.artifact4,
+    image: ASSET_IMAGES.artifact3,
     forgedAt: "3 days ago",
     transformedCount: 2,
     originalNfts: ["Study in Ethereal Blue", "Luminescent Form #89"],
@@ -141,11 +142,11 @@ export const INITIAL_ARTIFACTS: Artifact[] = [
     id: "art-104",
     name: "Marine Radiance #09",
     rarity: "Botanical",
-    image: ASSET_IMAGES.artifact2,
+    image: ASSET_IMAGES.artifact4,
     forgedAt: "5 days ago",
     transformedCount: 1,
     originalNfts: ["Oceanic Blob #33"],
-    originalThumbnails: ["https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop"],
+    originalThumbnails: [ASSET_IMAGES.nft2],
     vrfSeed: "VRF-448A-01F9",
     moonPhase: "Waning Crescent (18%)",
     priceEth: 0.60,

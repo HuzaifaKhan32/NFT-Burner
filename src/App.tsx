@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationTab, ThemeMode, NFTItem, Artifact, WalletState } from './types';
 import { INITIAL_NFTS, INITIAL_ARTIFACTS, ASSET_IMAGES } from './data/mockData';
+import { ENVIRONMENT_MAP, SectionId } from './config/environmentMap';
+import { EnvironmentalBackground } from './components/EnvironmentalBackground';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { ProcedureSection } from './components/ProcedureSection';
+// import { ProcedureSection } from './components/ProcedureSection';      // old — keep, don't delete
+import HowItWorksBurnTrail from './components/HowItWorksBurnTrail'; // new
 import { BurnVaultInterface } from './components/BurnVaultInterface';
 import { FAQSection } from './components/FAQSection';
 import { GallerySection } from './components/GallerySection';
@@ -11,10 +14,14 @@ import { MarketplaceSection } from './components/MarketplaceSection';
 import { BurnRitualModal } from './components/BurnRitualModal';
 import { WalletModal } from './components/WalletModal';
 import { Footer } from './components/Footer';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<NavigationTab>('burn-vault');
   const [themeMode, setThemeMode] = useState<ThemeMode>('dark');
+
+  // Background state driven by centralized environment map
+  const [activeBgUrl, setActiveBgUrl] = useState<string>(ENVIRONMENT_MAP.routes['burn-vault']);
 
   const [nfts, setNfts] = useState<NFTItem[]>(INITIAL_NFTS);
   const [artifacts, setArtifacts] = useState<Artifact[]>(INITIAL_ARTIFACTS);
@@ -29,6 +36,89 @@ export default function App() {
   const [isBurnModalOpen, setIsBurnModalOpen] = useState(false);
   const [selectedForBurn, setSelectedForBurn] = useState<NFTItem[]>([]);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+
+  // Update background when active Tab changes
+  useEffect(() => {
+    if (activeTab !== 'burn-vault') {
+      setActiveBgUrl(ENVIRONMENT_MAP.routes[activeTab]);
+    } else {
+      setActiveBgUrl(ENVIRONMENT_MAP.sections['hero']);
+    }
+  }, [activeTab]);
+
+  // Center-Weighted Viewport Scroll Tracker with Hysteresis
+  useEffect(() => {
+    if (activeTab !== 'burn-vault') return;
+
+    const sections: { id: string; bg: string }[] = [
+      { id: 'section-hero', bg: ENVIRONMENT_MAP.sections['hero'] },
+      { id: 'section-procedure', bg: ENVIRONMENT_MAP.sections['procedure'] },
+      { id: 'section-burn-vault', bg: ENVIRONMENT_MAP.sections['burn-vault'] },
+      { id: 'section-faq', bg: ENVIRONMENT_MAP.sections['faq'] },
+      { id: 'section-footer', bg: ENVIRONMENT_MAP.sections['faq'] }
+    ];
+
+    let ticking = false;
+    let currentDominantId = 'section-hero';
+
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const vHeight = window.innerHeight;
+        const centerTop = vHeight * 0.25;
+        const centerBottom = vHeight * 0.75;
+        const centerSpan = centerBottom - centerTop;
+
+        let bestSection: { id: string; bg: string; ratio: number } | null = null;
+        let currentSectionRatio = 0;
+
+        sections.forEach(sec => {
+          const el = document.getElementById(sec.id);
+          if (!el) return;
+
+          const rect = el.getBoundingClientRect();
+          // Calculate intersection with central 50% band of viewport
+          const overlapTop = Math.max(rect.top, centerTop);
+          const overlapBottom = Math.min(rect.bottom, centerBottom);
+          const overlap = Math.max(0, overlapBottom - overlapTop);
+          const ratio = overlap / centerSpan;
+
+          if (sec.id === currentDominantId) {
+            currentSectionRatio = ratio;
+          }
+
+          if (!bestSection || ratio > bestSection.ratio) {
+            bestSection = { id: sec.id, bg: sec.bg, ratio };
+          }
+        });
+
+        // Hysteresis activation: switch when new section reaches ~48% central visibility,
+        // or current drops below 28% and a new section is dominant.
+        if (bestSection && bestSection.ratio >= 0.45) {
+          if (bestSection.id !== currentDominantId) {
+            currentDominantId = bestSection.id;
+            setActiveBgUrl(bestSection.bg);
+          }
+        } else if (bestSection && currentSectionRatio < 0.28 && bestSection.ratio > currentSectionRatio) {
+          if (bestSection.id !== currentDominantId) {
+            currentDominantId = bestSection.id;
+            setActiveBgUrl(bestSection.bg);
+          }
+        }
+
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial evaluation on mount
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [activeTab]);
 
   // Toggle selection of NFT in Vault
   const handleToggleSelectNft = (id: string) => {
@@ -112,17 +202,27 @@ export default function App() {
   };
 
   const scrollToVault = () => {
-    const el = document.getElementById('burn-vault-interface');
+    const el = document.getElementById('section-burn-vault');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-300 ${
-      themeMode === 'dark' ? 'bg-[#121212] text-[#e5e2e1]' : 'bg-[#fff8f3] text-[#1e1b16]'
-    }`}>
-      {/* Top Navbar */}
+    <div
+      data-theme={themeMode === 'dark' ? 'dark' : 'light'}
+      className="min-h-screen flex flex-col font-sans transition-colors duration-300 relative bg-transparent"
+      style={{
+        color: 'var(--color-text-primary)'
+      }}
+    >
+      {/* 1. PERSISTENT ENVIRONMENTAL BACKGROUND SYSTEM */}
+      <EnvironmentalBackground
+        activeBgUrl={activeBgUrl}
+        themeMode={themeMode}
+      />
+
+      {/* 2. TOP NAVBAR */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -132,48 +232,59 @@ export default function App() {
         onOpenWalletModal={() => setIsWalletModalOpen(true)}
       />
 
-      {/* Main View Content */}
-      <main className="flex-1 w-full">
-        {activeTab === 'burn-vault' && (
-          <div className="flex flex-col w-full">
-            <HeroSection
-              themeMode={themeMode}
-              onEnterVault={scrollToVault}
-              onExploreGallery={() => setActiveTab('gallery')}
-            />
+      {/* 3. MAIN CONTENT LAYER WITH CONTENT-ONLY ROUTE TRANSITION */}
+      <main className="flex-1 w-full relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full"
+          >
+            {activeTab === 'burn-vault' && (
+              <div className="flex flex-col w-full">
+                <HeroSection
+                  themeMode={themeMode}
+                  onEnterVault={scrollToVault}
+                  onExploreGallery={() => setActiveTab('gallery')}
+                />
 
-            <ProcedureSection themeMode={themeMode} />
+                <HowItWorksBurnTrail themeMode={themeMode} />
 
-            <BurnVaultInterface
-              nfts={nfts}
-              themeMode={themeMode}
-              walletState={walletState}
-              onToggleSelectNft={handleToggleSelectNft}
-              onStartBurnRitual={handleStartBurnRitual}
-              onAddTestNft={handleAddTestNft}
-            />
+                <BurnVaultInterface
+                  nfts={nfts}
+                  themeMode={themeMode}
+                  walletState={walletState}
+                  onToggleSelectNft={handleToggleSelectNft}
+                  onStartBurnRitual={handleStartBurnRitual}
+                  onAddTestNft={handleAddTestNft}
+                />
 
-            <FAQSection themeMode={themeMode} />
-          </div>
-        )}
+                <FAQSection themeMode={themeMode} />
+              </div>
+            )}
 
-        {activeTab === 'gallery' && (
-          <GallerySection
-            artifacts={artifacts}
-            themeMode={themeMode}
-          />
-        )}
+            {activeTab === 'gallery' && (
+              <GallerySection
+                artifacts={artifacts}
+                themeMode={themeMode}
+              />
+            )}
 
-        {activeTab === 'marketplace' && (
-          <MarketplaceSection
-            artifacts={artifacts}
-            themeMode={themeMode}
-            walletState={walletState}
-          />
-        )}
+            {activeTab === 'marketplace' && (
+              <MarketplaceSection
+                artifacts={artifacts}
+                themeMode={themeMode}
+                walletState={walletState}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      {/* Burn Ritual Animation Modal (Framer Motion) */}
+      {/* 4. BURN RITUAL MODAL (Preserved for Transformation Ritual) */}
       <BurnRitualModal
         isOpen={isBurnModalOpen}
         selectedNfts={selectedForBurn}
@@ -181,7 +292,7 @@ export default function App() {
         onCompleteBurn={handleCompleteBurn}
       />
 
-      {/* Web3 Wallet Modal */}
+      {/* 5. WEB3 WALLET MODAL */}
       <WalletModal
         isOpen={isWalletModalOpen}
         walletState={walletState}
@@ -191,7 +302,7 @@ export default function App() {
         onAddFaucetFunds={handleAddFaucetFunds}
       />
 
-      {/* Footer */}
+      {/* 6. FOOTER */}
       <Footer themeMode={themeMode} setActiveTab={setActiveTab} />
     </div>
   );

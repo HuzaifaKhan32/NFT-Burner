@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NFTItem, Artifact } from '../types';
 import { ASSET_IMAGES } from '../data/mockData';
-import { soundFX } from '../utils/audio';
 import { Sparkles, Moon, RefreshCw, X, ArrowRight, Compass } from 'lucide-react';
 
 interface BurnRitualModalProps {
@@ -30,8 +29,6 @@ export const BurnRitualModal: React.FC<BurnRitualModalProps> = ({
       return;
     }
 
-    soundFX.playBurnIgnite();
-
     // Progress animation timer
     const interval = setInterval(() => {
       setProgress(prev => {
@@ -56,7 +53,6 @@ export const BurnRitualModal: React.FC<BurnRitualModalProps> = ({
     // Stage 3 -> Revealed at 5.5s
     const revealTimer = setTimeout(() => {
       setRitualStage('revealed');
-      soundFX.playRebirthChime();
 
       const rarities: ('Botanical' | 'Ethereal' | 'Celestial' | 'Mythic')[] = [
         'Celestial', 'Mythic', 'Ethereal', 'Botanical'
@@ -134,7 +130,13 @@ export const BurnRitualModal: React.FC<BurnRitualModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 16 }}
           transition={{ duration: 0.4 }}
-          className="relative w-full max-w-2xl glass-sharp-gold rounded-3xl p-6 sm:p-10 text-white overflow-hidden shadow-2xl my-8 border border-[#e9c176]/40"
+          className="relative w-full max-w-2xl rounded-3xl p-6 sm:p-10 text-white overflow-hidden shadow-2xl my-8"
+          style={{
+            background: 'rgba(26, 23, 20, 0.75)',
+            backdropFilter: 'blur(20px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(140%)',
+            border: '1px solid var(--color-border-emphasis)'
+          }}
         >
           {/* Close button */}
           <button
@@ -328,7 +330,6 @@ export const BurnRitualModal: React.FC<BurnRitualModalProps> = ({
               {/* Complete Action */}
               <button
                 onClick={() => {
-                  soundFX.playClick();
                   onCompleteBurn(forgedArtifact);
                 }}
                 className="w-full py-4 rounded-full bg-[#e9c176] text-[#2c1d00] font-semibold text-xs tracking-widest uppercase hover:bg-[#ffdea5] transition-all shadow-xl shadow-[#e9c176]/20 cursor-pointer"

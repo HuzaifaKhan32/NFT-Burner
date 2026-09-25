@@ -1,75 +1,337 @@
 @import "tailwindcss";
 
+/* ============================================================
+   AURELIAN MIST DESIGN SYSTEM
+   Phase 1: Visual Foundation
+   ============================================================ */
+
 @layer base {
+  :root {
+    /* COLOR TOKENS */
+    --color-bg-primary: #0f0e0c;
+    --color-bg-secondary: #1a1714;
+    --color-bg-tertiary: #252320;
+
+    --color-text-primary: #f4f1ed;
+    --color-text-secondary: #b8b0a6;
+    --color-text-tertiary: #7a7269;
+
+    --color-accent-gold: #d4a574;
+    --color-accent-gold-muted: #9d7e5a;
+    --color-accent-forest: #4a5c47;
+
+    --color-danger: #b85d5d;
+    --color-danger-bg: #2a1414;
+
+    --color-success: #5c7a59;
+
+    --color-phantom: #ab9ff2;
+
+    --color-border-subtle: rgba(244, 241, 237, 0.08);
+    --color-border-emphasis: rgba(212, 165, 116, 0.25);
+
+    /* SPACING TOKENS */
+    --space-section: 7rem;
+    --space-section-sm: 4rem;
+    --space-component: 3rem;
+    --space-content: 1.5rem;
+
+    /* RADIUS TOKENS */
+    --radius-sm: 0.5rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.5rem;
+
+    /* TYPOGRAPHY TOKENS */
+    --font-serif: 'EB Garamond', 'Playfair Display', serif;
+    --font-sans: 'Hanken Grotesk', 'Inter', sans-serif;
+
+    /* SHADOW TOKENS */
+    --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.12);
+    --shadow-moderate: 0 4px 16px rgba(0, 0, 0, 0.18);
+    --shadow-emphasis: 0 8px 24px rgba(0, 0, 0, 0.24);
+  }
+
+  /* Light mode overrides */
+  [data-theme="light"] {
+    --color-bg-primary: #faf7f3;
+    --color-bg-secondary: #f2ede6;
+    --color-bg-tertiary: #e8e0d6;
+
+    --color-text-primary: #2a2418;
+    --color-text-secondary: #5d5547;
+    --color-text-tertiary: #8a7f71;
+
+    --color-accent-gold: #9d7e5a;
+    --color-accent-gold-muted: #7a6346;
+
+    --color-border-subtle: rgba(42, 36, 24, 0.08);
+    --color-border-emphasis: rgba(157, 126, 90, 0.3);
+
+    --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-moderate: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-emphasis: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .modal-wallet-card {
+    background-color: var(--color-bg-secondary);
+  }
+
+  [data-theme="light"] .modal-wallet-card {
+    background-color: #ffffff !important;
+  }
+
   body {
-    font-family: 'Hanken Grotesk', 'Inter', sans-serif;
-    background-color: #121212;
-    color: #e5e2e1;
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
     overflow-x: hidden;
+    line-height: 1.6;
   }
 
   h1, h2, h3, .font-serif-heading {
-    font-family: 'EB Garamond', 'Playfair Display', serif;
+    font-family: var(--font-serif);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  /* Focus visible for keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid var(--color-accent-gold);
+    outline-offset: 2px;
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-/* Custom Glassmorphism Styles - Pure Frosted Glass */
-.glass-sharp {
-  background: rgba(18, 18, 18, 0.42);
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+/* ============================================================
+   SURFACE SYSTEM (Reduced Glassmorphism)
+   ============================================================ */
+
+/* LEVEL 1: Default solid surface */
+.surface-solid {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
 }
 
-.glass-sharp-gold {
-  background: rgba(16, 14, 12, 0.45);
-  backdrop-filter: blur(30px) saturate(160%);
-  -webkit-backdrop-filter: blur(30px) saturate(160%);
-  border: 1px solid rgba(233, 193, 118, 0.35);
-  box-shadow: 0 0 35px rgba(233, 193, 118, 0.15), 0 25px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(233, 193, 118, 0.3);
+/* LEVEL 2: Subtle translucent (for layering over backgrounds) */
+.surface-translucent {
+  background-color: rgba(26, 23, 20, 0.7);
+  border: 1px solid var(--color-border-subtle);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.glass-sharp-light {
-  background: rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+[data-theme="light"] .surface-translucent {
+  background-color: rgba(250, 247, 243, 0.7);
 }
 
-.glass-sharp-card-light {
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.85);
+/* LEVEL 3: Glass effect (special features only) */
+.surface-glass {
+  background: rgba(26, 23, 20, 0.4);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--color-border-subtle);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+[data-theme="light"] .surface-glass {
+  background: rgba(250, 247, 243, 0.5);
 }
-::-webkit-scrollbar-track {
-  background: rgba(18, 18, 18, 0.5);
+
+/* LEVEL 4: Gold-accented glass (rare emphasis) */
+.surface-glass-gold {
+  background: rgba(26, 23, 20, 0.5);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--color-border-emphasis);
+  box-shadow: 0 0 24px rgba(212, 165, 116, 0.08), var(--shadow-moderate);
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(233, 193, 118, 0.3);
+
+[data-theme="light"] .surface-glass-gold {
+  background: rgba(250, 247, 243, 0.6);
+  box-shadow: 0 0 24px rgba(157, 126, 90, 0.06), var(--shadow-moderate);
+}
+
+/* ============================================================
+   BUTTON SYSTEM
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--color-accent-gold);
+  color: var(--color-bg-primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-accent-gold-muted);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border-emphasis);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: var(--color-text-primary);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #9a4848;
+  transform: translateY(-1px);
+}
+
+/* Pill-shaped buttons (reserved for compact contexts) */
+.btn-pill {
   border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(233, 193, 118, 0.6);
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
-/* Ember Particle Effect Animations */
+/* ============================================================
+   CARD SYSTEM
+   ============================================================ */
+
+.card {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-moderate);
+}
+
+.card-selected {
+  border-color: var(--color-accent-gold);
+  box-shadow: 0 0 0 2px var(--color-accent-gold);
+}
+
+/* ============================================================
+   STATUS BADGES (Minimal use)
+   ============================================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid;
+}
+
+.badge-gold {
+  background-color: rgba(212, 165, 116, 0.1);
+  color: var(--color-accent-gold);
+  border-color: rgba(212, 165, 116, 0.2);
+}
+
+.badge-success {
+  background-color: rgba(92, 122, 89, 0.1);
+  color: var(--color-success);
+  border-color: rgba(92, 122, 89, 0.2);
+}
+
+.badge-danger {
+  background-color: rgba(184, 93, 93, 0.1);
+  color: var(--color-danger);
+  border-color: rgba(184, 93, 93, 0.2);
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent-gold-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-gold);
+}
+
+/* ============================================================
+   ENVIRONMENT CONTINUITY SYSTEM
+   ============================================================ */
+
+/* ============================================================
+   ANIMATION UTILITIES (Reduced from original)
+   ============================================================ */
+
+/* Reserved for burn ritual only */
 @keyframes emberRise {
   0% {
     transform: translateY(0) scale(1) rotate(0deg);
     opacity: 1;
   }
   100% {
-    transform: translateY(-180px) scale(0.2) rotate(45deg);
+    transform: translateY(-160px) scale(0.3) rotate(30deg);
     opacity: 0;
   }
 }
@@ -78,80 +340,46 @@
   animation: emberRise 2.5s infinite ease-out;
 }
 
-/* Flame Glow pulse */
-@keyframes flamePulse {
+/* Subtle pulse for status indicators only */
+@keyframes subtlePulse {
   0%, 100% {
-    box-shadow: 0 0 25px rgba(233, 193, 118, 0.3), 0 0 50px rgba(186, 26, 26, 0.2);
+    opacity: 0.8;
   }
   50% {
-    box-shadow: 0 0 45px rgba(233, 193, 118, 0.6), 0 0 80px rgba(255, 100, 30, 0.4);
+    opacity: 1;
   }
 }
 
-.flame-glow-pulse {
-  animation: flamePulse 2s infinite ease-in-out;
+.animate-status-pulse {
+  animation: subtlePulse 2.5s ease-in-out infinite;
 }
 
-/* Smooth Image Edge Blur Filters & Masks (Organic Section Transitions without Black Overlays) */
-.image-edge-blur-bottom {
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 72%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 72%, rgba(0,0,0,0) 100%);
-}
-
-.image-edge-blur-both {
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 16%, rgba(0,0,0,1) 84%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 16%, rgba(0,0,0,1) 84%, rgba(0,0,0,0) 100%);
-}
-
-.image-edge-blur-top {
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 100%);
-}
-
-/* Pure Optical Blur Seam Diffusers (Zero color overlays) */
-.edge-blur-seam-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 110px;
-  background: transparent;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.edge-blur-seam-top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 110px;
-  background: transparent;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  mask-image: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Soft ambient mist shimmer */
-@keyframes mistDrift {
+/* Reduced from original - only for scarcity warnings */
+@keyframes shimmer {
   0%, 100% {
-    opacity: 0.35;
-    transform: translateY(0px) scale(1);
+    opacity: 0.75;
   }
   50% {
-    opacity: 0.65;
-    transform: translateY(-8px) scale(1.03);
+    opacity: 1;
   }
 }
 
-.animate-mist-shimmer {
-  animation: mistDrift 6s infinite ease-in-out;
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
 }
 
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.transition-smooth {
+  transition: all 0.2s ease;
+}
+
+.transition-colors {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}

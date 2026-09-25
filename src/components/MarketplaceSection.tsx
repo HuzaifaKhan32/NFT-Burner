@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Artifact, ThemeMode, WalletState } from '../types';
-import { soundFX } from '../utils/audio';
-import { ShoppingBag, ArrowUpDown, Tag, ShieldCheck, Flame } from 'lucide-react';
+import { ArrowUpDown, Tag } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface MarketplaceSectionProps {
@@ -24,51 +23,53 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
   });
 
   return (
-    <section className={`min-h-screen pt-28 pb-24 px-5 lg:px-12 transition-colors duration-300 ${
-      themeMode === 'dark' ? 'bg-[#121212] text-[#e5e2e1]' : 'bg-[#fff8f3] text-[#1e1b16]'
-    }`}>
+    <section
+      className="min-h-screen pt-28 pb-24 px-5 lg:px-12 bg-transparent relative z-10 transition-colors duration-300"
+      style={{ color: 'var(--color-text-primary)' }}
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-3xl mx-auto mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e9c176]/20 border border-[#e9c176]/40 text-[#e9c176] text-xs font-semibold tracking-widest uppercase mb-4">
-            <ShoppingBag size={14} />
-            ECOLOGICAL ECOSYSTEM
-          </div>
           <h1 className="font-serif-heading text-4xl sm:text-5xl lg:text-6xl font-medium mb-4">
-            Aurelian Marketplace
+            Marketplace
           </h1>
-          <p className={`text-base sm:text-lg ${themeMode === 'dark' ? 'text-[#d1c5b4]' : 'text-[#4e4639]'}`}>
-            Acquire rare botanical artifacts directly from collectors who initiated the ritual of metamorphosis.
+          <p className="text-base sm:text-lg font-sans" style={{ color: 'var(--color-text-secondary)' }}>
+            Acquire artifacts listed by collectors who transformed their NFTs.
           </p>
         </motion.div>
 
         {/* Sort & Filter Bar */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className={`p-4 rounded-2xl mb-10 flex flex-wrap items-center justify-between gap-4 ${
-            themeMode === 'dark' ? 'glass-sharp' : 'bg-white shadow-lg border border-[#7f7667]/20'
-          }`}
+          className="surface-glass p-4 mb-10 flex flex-wrap items-center justify-between gap-4"
+          style={{ borderRadius: 'var(--radius-md)' }}
         >
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
-            <Tag size={16} className="text-[#e9c176]" />
-            <span>Curated Offerings ({sortedArtifacts.length})</span>
+          <div className="flex items-center gap-2 text-sm font-medium">
+            <Tag size={16} style={{ color: 'var(--color-accent-gold)' }} />
+            <span>{sortedArtifacts.length} artifacts available</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <ArrowUpDown size={14} className="text-white/50" />
+            <ArrowUpDown size={14} style={{ color: 'var(--color-text-tertiary)' }} />
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value as 'price-low' | 'price-high' | 'recent')}
-              className="px-3 py-1.5 rounded-xl text-xs bg-black/30 border border-white/10 text-white focus:outline-none focus:border-[#e9c176] cursor-pointer"
+              className="px-3 py-2 text-sm outline-none cursor-pointer transition-colors"
+              style={{
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: 'var(--color-bg-tertiary)',
+                border: '1px solid var(--color-border-subtle)',
+                color: 'var(--color-text-primary)'
+              }}
             >
-              <option value="recent">Sort by Recently Forged</option>
+              <option value="recent">Recently forged</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
             </select>
@@ -76,7 +77,7 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
         </motion.div>
 
         {/* Cards Grid */}
-        <motion.div 
+        <motion.div
           layout
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
@@ -85,48 +86,42 @@ export const MarketplaceSection: React.FC<MarketplaceSectionProps> = ({
               <motion.div
                 key={art.id}
                 layout
-                initial={{ opacity: 0, scale: 0.94, y: 15 }}
+                initial={{ opacity: 0, scale: 0.96, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.94 }}
+                exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className={`rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
-                  themeMode === 'dark'
-                    ? 'glass-sharp border border-white/10 hover:border-[#e9c176]/40'
-                    : 'bg-white border border-[#7f7667]/20 shadow-lg'
-                }`}
+                className="card card-interactive surface-solid overflow-hidden"
+                style={{ borderRadius: 'var(--radius-md)' }}
               >
-                <div className="relative aspect-square overflow-hidden bg-black/40">
-                  <img src={art.image} alt={art.name} className="w-full h-full object-cover" />
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 text-[10px] font-semibold tracking-wider uppercase text-[#e9c176]">
+                <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: 'var(--color-bg-primary)' }}>
+                  <img src={art.image} alt={art.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute top-3 left-3 badge badge-gold">
                     {art.rarity}
                   </div>
                 </div>
 
                 <div className="p-5">
-                  <h3 className="font-serif-heading text-lg font-semibold truncate mb-1">
+                  <h3 className="font-serif-heading text-lg font-medium truncate mb-1">
                     {art.name}
                   </h3>
-                  <span className={`text-[10px] block mb-4 ${themeMode === 'dark' ? 'text-white/50' : 'text-[#383124]/70'}`}>
-                    Curated by {art.creator}
+                  <span className="text-xs block mb-4" style={{ color: 'var(--color-text-tertiary)' }}>
+                    Listed by {art.creator}
                   </span>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                  <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: 'var(--color-border-subtle)' }}>
                     <div>
-                      <span className={`text-[10px] block uppercase tracking-wider ${themeMode === 'dark' ? 'text-white/50' : 'text-[#383124]/70'}`}>
+                      <span className="text-xs block uppercase tracking-wide" style={{ color: 'var(--color-text-tertiary)' }}>
                         Price
                       </span>
-                      <span className="text-base font-semibold text-[#e9c176]">
+                      <span className="text-base font-semibold" style={{ color: 'var(--color-accent-gold)' }}>
                         {art.priceEth} SOL
                       </span>
                     </div>
 
                     <button
-                      onClick={() => {
-                        soundFX.playClick();
-                      }}
-                      className="px-4 py-2 rounded-full bg-[#e9c176] text-[#2c1d00] text-xs font-semibold tracking-wider uppercase hover:bg-[#ffdea5] transition-all cursor-pointer shadow-md hover:scale-105"
+                      className="btn btn-primary btn-pill"
                     >
-                      COLLECT
+                      Collect
                     </button>
                   </div>
                 </div>

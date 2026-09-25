@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import { NavigationTab, ThemeMode } from '../types';
-import { soundFX } from '../utils/audio';
 import {
-  Sparkles,
   ArrowUp,
   Mail,
   CheckCircle2,
-  Globe,
-  ShieldCheck,
-  Compass,
   FileText,
-  ExternalLink,
   ChevronRight,
   X
 } from 'lucide-react';
@@ -28,63 +22,73 @@ export const Footer: React.FC<FooterProps> = ({ themeMode, setActiveTab }) => {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@')) return;
-    soundFX.playRebirthChime();
     setSubscribed(true);
   };
 
   const scrollToTop = () => {
-    soundFX.playClick();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavClick = (tab: NavigationTab) => {
-    soundFX.playClick();
     setActiveTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const linkClass = "transition-colors flex items-center gap-1.5 text-left";
+  const linkStyle = { color: 'var(--color-text-secondary)' };
+
+  const isDark = themeMode === 'dark';
+
+  const newsletterBg = isDark
+    ? 'linear-gradient(180deg, rgba(16, 24, 19, 0.95) 0%, rgba(21, 22, 17, 0.98) 60%, rgba(27, 26, 20, 1) 100%)'
+    : 'linear-gradient(180deg, rgba(243, 239, 230, 0.96) 0%, rgba(234, 229, 217, 0.98) 100%)';
+
+  const newsletterBorder = isDark ? 'rgba(212, 165, 116, 0.18)' : 'rgba(157, 126, 90, 0.22)';
+  const footerBg = isDark ? '#111713' : '#e8e2d5';
+  const footerTextPrimary = isDark ? '#ffffff' : '#2a2418';
+  const footerTextSecondary = isDark ? '#b8b3a8' : '#5d5547';
+  const footerTextMuted = isDark ? '#8e887d' : '#8a7f71';
+  const cardBg = isDark ? '#171c17' : '#ded7c8';
+  const cardBorder = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(42, 36, 24, 0.1)';
+
   return (
     <footer
-      className={`w-full transition-colors duration-500 border-t ${
-        themeMode === 'dark'
-          ? 'bg-[#141210] text-[#e5e2e1] border-white/10'
-          : 'bg-[#fcf9f5] text-[#2c2416] border-[#e8dfd3]'
-      }`}
+      id="section-footer"
+      className="w-full relative z-10 font-sans"
     >
-      {/* 1. TOP NEWSLETTER / DISPATCH BANNER */}
-      <div
-        className={`border-b ${
-          themeMode === 'dark' ? 'border-white/10 bg-black/20' : 'border-[#e8dfd3] bg-[#f5ede1]/60'
-        }`}
+      {/* 1. NEWSLETTER TRANSITIONAL SURFACE (Phase 4.7) */}
+      <div 
+        className="w-full border-t border-b transition-colors duration-300" 
+        style={{
+          background: newsletterBg,
+          borderColor: newsletterBorder
+        }}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold tracking-widest uppercase mb-3 bg-[#e9c176]/15 text-[#e9c176] border border-[#e9c176]/30">
-                <Sparkles size={12} />
-                THE LUNAR DISPATCH
-              </div>
-              <h3 className="font-serif-heading text-2xl sm:text-3xl font-medium tracking-tight mb-2">
-                Stay Attuned to the Lunar Metamorphosis
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] block mb-2" style={{ color: 'var(--color-accent-gold)' }}>
+                STAY CONNECTED WITH THE SANCTUARY
+              </span>
+              <h3 className="font-serif-heading text-2xl sm:text-3xl font-medium tracking-tight mb-2" style={{ color: footerTextPrimary }}>
+                Receive Artifact Dispatch Updates
               </h3>
-              <p
-                className={`text-xs sm:text-sm leading-relaxed ${
-                  themeMode === 'dark' ? 'text-white/70' : 'text-[#5d5241]'
-                }`}
-              >
-                Receive cryptographic alerts when cosmic cycles and oracle seeds align for high-resonance botanical transformations.
+              <p className="text-sm leading-relaxed" style={{ color: footerTextSecondary }}>
+                Be the first to learn about upcoming transformation drops, VRF synthesis parameters, and platform updates.
               </p>
             </div>
 
-            {/* Newsletter Input Box */}
+            {/* Newsletter Input */}
             <div className="w-full lg:w-auto lg:min-w-[420px]">
               {subscribed ? (
-                <div className="p-4 rounded-2xl bg-[#e9c176]/15 border border-[#e9c176]/40 flex items-center gap-3 text-[#e9c176]">
+                <div className="p-4 flex items-center gap-3"
+                  style={{ borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(212, 165, 116, 0.12)', border: '1px solid var(--color-border-emphasis)', color: 'var(--color-accent-gold)' }}
+                >
                   <CheckCircle2 size={20} className="shrink-0" />
                   <div>
-                    <h5 className="text-xs font-bold uppercase tracking-wider">You are Attuned</h5>
-                    <p className="text-[11px] text-white/80">
-                      The sanctuary dispatch will notify you at next full moon alignment.
+                    <h5 className="text-sm font-semibold">Subscribed</h5>
+                    <p className="text-xs" style={{ color: footerTextSecondary }}>
+                      We'll email you about new drops and updates.
                     </p>
                   </div>
                 </div>
@@ -93,26 +97,26 @@ export const Footer: React.FC<FooterProps> = ({ themeMode, setActiveTab }) => {
                   <div className="relative flex-1">
                     <Mail
                       size={16}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+                      style={{ color: footerTextMuted }}
                     />
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter collector email..."
+                      placeholder="Enter your email address..."
                       required
-                      className={`w-full pl-11 pr-4 py-3.5 rounded-full text-xs font-sans outline-none transition-all ${
-                        themeMode === 'dark'
-                          ? 'bg-white/5 border border-white/15 text-white placeholder:text-white/40 focus:border-[#e9c176]'
-                          : 'bg-white border border-[#d6c7b2] text-[#2c2416] placeholder:text-[#887864] focus:border-[#775a19] shadow-sm'
-                      }`}
+                      className="w-full pl-11 pr-4 py-3 text-sm font-sans outline-none transition-colors"
+                      style={{
+                        borderRadius: 'var(--radius-sm)',
+                        backgroundColor: isDark ? '#151c16' : '#f5f1e8',
+                        border: `1px solid ${cardBorder}`,
+                        color: footerTextPrimary
+                      }}
                     />
                   </div>
-                  <button
-                    type="submit"
-                    className="px-7 py-3.5 rounded-full bg-[#e9c176] text-[#2c1d00] hover:bg-[#ffdca2] text-xs font-semibold tracking-widest uppercase transition-all shadow-md hover:scale-[1.02] shrink-0 cursor-pointer"
-                  >
-                    SUBSCRIBE
+                  <button type="submit" className="btn btn-primary shrink-0">
+                    Subscribe
                   </button>
                 </form>
               )}
@@ -121,459 +125,317 @@ export const Footer: React.FC<FooterProps> = ({ themeMode, setActiveTab }) => {
         </div>
       </div>
 
-      {/* 2. MAIN 4-COLUMN FOOTER NAVIGATION */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
-          {/* Brand Identity & Protocol Specs */}
-          <div className="lg:col-span-2 space-y-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#d97706] to-[#e9c176] p-[1px] shadow-lg shadow-[#e9c176]/20">
-                <div className="w-full h-full rounded-[15px] bg-[#1a1714] flex items-center justify-center text-[#e9c176]">
-                  <Sparkles size={18} />
+      {/* 2. MAIN FOOTER — SOLID COLORED GROUNDING SURFACE (Phase 4.8 & 4.9) */}
+      <div 
+        className="w-full transition-colors duration-300"
+        style={{
+          backgroundColor: footerBg,
+          color: footerTextSecondary
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+            {/* Brand Column */}
+            <div className="lg:col-span-2 space-y-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{ backgroundColor: cardBg, border: '1px solid rgba(212, 165, 116, 0.3)', color: 'var(--color-accent-gold)' }}
+                >
+                  <FileText size={16} />
+                </div>
+                <div>
+                  <span className="font-serif-heading text-xl font-medium block" style={{ color: footerTextPrimary }}>
+                    Aurelian Mist
+                  </span>
+                  <span className="text-xs" style={{ color: footerTextMuted }}>
+                    Transform NFTs into new artifacts
+                  </span>
                 </div>
               </div>
-              <div>
-                <span className="font-serif-heading text-xl font-semibold tracking-wider text-current block">
-                  AURELIAN MIST
-                </span>
-                <span className="text-[10px] tracking-[0.25em] text-[#e9c176] font-semibold uppercase block">
-                  SANCTUARY FOR METAMORPHOSIS
-                </span>
+
+              <p className="text-sm leading-relaxed max-w-sm font-sans" style={{ color: footerTextSecondary }}>
+                A platform for permanently burning NFTs and receiving new digital artifacts, each with verifiable on-chain provenance.
+              </p>
+
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 text-xs"
+                style={{ borderRadius: 'var(--radius-sm)', backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
+              >
+                <span className="w-2 h-2 rounded-full animate-status-pulse" style={{ backgroundColor: 'var(--color-success)' }} />
+                <span style={{ color: footerTextSecondary }}>Phantom wallet supported</span>
               </div>
             </div>
 
-            <p
-              className={`text-xs sm:text-sm leading-relaxed max-w-sm font-sans ${
-                themeMode === 'dark' ? 'text-white/70' : 'text-[#5d5241]'
-              }`}
-            >
-              An algorithmic sanctuary where original artworks surrender their form, dissolving into particle light to crystallize into immutable botanical artifacts.
+            {/* Explore Column */}
+            <div className="space-y-4">
+              <h4 className="font-serif-heading text-base font-medium" style={{ color: 'var(--color-accent-gold)' }}>
+                Explore
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                <li>
+                  <button onClick={() => handleNavClick('burn-vault')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Transformation Vault
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleNavClick('gallery')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Gallery
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleNavClick('marketplace')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Marketplace
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setActiveModal('provenance')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Provenance
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Resources Column */}
+            <div className="space-y-4">
+              <h4 className="font-serif-heading text-base font-medium" style={{ color: 'var(--color-accent-gold)' }}>
+                Resources
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                <li>
+                  <button onClick={() => setActiveModal('vrf')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    How artifacts are generated
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setActiveModal('proof')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Proof of burn
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setActiveModal('phantom')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Wallet security
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setActiveModal('botanical')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Artifact types
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal Column */}
+            <div className="space-y-4">
+              <h4 className="font-serif-heading text-base font-medium" style={{ color: 'var(--color-accent-gold)' }}>
+                Legal
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                <li>
+                  <button onClick={() => setActiveModal('terms')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Terms of service
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setActiveModal('privacy')} className={`${linkClass} cursor-pointer hover:opacity-100`} style={{ color: footerTextSecondary }}>
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Privacy
+                  </button>
+                </li>
+                <li>
+                  <a
+                    href="mailto:hello@aurelianmist.xyz"
+                    className={`${linkClass} hover:opacity-100`}
+                    style={{ color: footerTextSecondary }}
+                  >
+                    <ChevronRight size={12} style={{ color: 'var(--color-accent-gold)' }} />
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. BOTTOM BAR */}
+        <div className="border-t py-8 px-6 sm:px-8 lg:px-12" style={{ borderColor: cardBorder }}>
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs">
+            <p style={{ color: footerTextMuted }}>
+              © 2026 Aurelian Mist. All rights reserved.
             </p>
 
-            {/* Protocol Status Indicators */}
-            <div className="pt-2 space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-[11px] font-mono">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-white/80">Phantom Web3 Integrated</span>
-              </div>
-              <div className="block text-[11px] text-white/50 font-mono">
-                Oracle Seed: <span className="text-[#e9c176]">VRF-528Hz-Active</span> • Protocol v2.4
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Column 1: Sanctuary */}
-          <div className="space-y-4">
-            <h4 className="font-serif-heading text-base font-semibold tracking-wider uppercase text-[#e9c176]">
-              The Sanctuary
-            </h4>
-            <ul className="space-y-2.5 text-xs">
-              <li>
-                <button
-                  onClick={() => handleNavClick('burn-vault')}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Transformation Vault
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNavClick('gallery')}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Botanical Gallery
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNavClick('marketplace')}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Curated Offerings
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('provenance');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Lineage Archive
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('lunar');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Lunar Calendar
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Navigation Column 2: Protocol & Provenance */}
-          <div className="space-y-4">
-            <h4 className="font-serif-heading text-base font-semibold tracking-wider uppercase text-[#e9c176]">
-              Provenance
-            </h4>
-            <ul className="space-y-2.5 text-xs">
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('vrf');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  VRF Synthesis Oracle
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('proof');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Proof of Surrender
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('phantom');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Phantom Wallet Security
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('botanical');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Botanical Genus Types
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Navigation Column 3: Guild & Legal */}
-          <div className="space-y-4">
-            <h4 className="font-serif-heading text-base font-semibold tracking-wider uppercase text-[#e9c176]">
-              Guild & Legal
-            </h4>
-            <ul className="space-y-2.5 text-xs">
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('terms');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Terms of Metamorphosis
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('privacy');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Collector Privacy
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    soundFX.playClick();
-                    setActiveModal('manifesto');
-                  }}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100 cursor-pointer"
-                >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Sanctuary Manifesto
-                </button>
-              </li>
-              <li>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2.5">
+                {/* Solscan */}
                 <a
-                  href="mailto:curator@aurelianmist.sanctuary"
-                  onClick={() => soundFX.playClick()}
-                  className="hover:text-[#e9c176] transition-colors flex items-center gap-1.5 text-current opacity-80 hover:opacity-100"
+                  href="https://solscan.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:border-[#e9c176]/50"
+                  style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}`, color: footerTextSecondary }}
+                  title="View on Solscan"
                 >
-                  <ChevronRight size={12} className="text-[#e9c176]" />
-                  Curatorial Inquiries
+                  <FileText size={15} />
                 </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
 
-      {/* 3. BOTTOM BAR: COPYRIGHT, SOCIALS & BACK TO TOP */}
-      <div
-        className={`border-t py-8 px-6 sm:px-8 lg:px-12 ${
-          themeMode === 'dark' ? 'border-white/10 bg-black/40' : 'border-[#e8dfd3] bg-[#f0e7da]/50'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs">
-          {/* Copyright text */}
-          <div className="text-center sm:text-left">
-            <p className="opacity-70 font-sans tracking-wide">
-              © 2026 <span className="font-semibold text-current">AURELIAN MIST SANCTUARY</span>. ALL RIGHTS RESERVED.
-            </p>
-            <p className="text-[10px] opacity-40 mt-0.5">
-              Permanently transformed works enter the generative botanical continuum.
-            </p>
-          </div>
+                {/* X */}
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:border-[#e9c176]/50"
+                  style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}`, color: footerTextSecondary }}
+                  title="Follow on X"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
 
-          {/* Social Links & Phantom Badge */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2.5">
+                {/* Discord */}
+                <a
+                  href="https://discord.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:border-[#e9c176]/50"
+                  style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}`, color: footerTextSecondary }}
+                  title="Join Discord"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z" />
+                  </svg>
+                </a>
+              </div>
+
+              <div className="h-4 w-px" style={{ backgroundColor: cardBorder }} />
+
               <button
-                onClick={() => {
-                  soundFX.playClick();
-                  setActiveModal('phantom');
-                }}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#ab9ff2]/20 border border-white/10 hover:border-[#ab9ff2]/40 flex items-center justify-center text-sm transition-all"
-                title="Phantom Wallet Network"
+                onClick={scrollToTop}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors text-xs font-medium cursor-pointer hover:border-[#e9c176]/50"
+                style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}`, color: footerTextSecondary }}
+                title="Back to top"
               >
-                👻
+                <span>Top</span>
+                <ArrowUp size={12} />
               </button>
-              <a
-                href="#sanctuary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  soundFX.playClick();
-                  setActiveModal('manifesto');
-                }}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#e9c176]/20 border border-white/10 hover:border-[#e9c176]/40 flex items-center justify-center opacity-70 hover:opacity-100 hover:text-[#e9c176] transition-all"
-                title="Sanctuary Network"
-              >
-                <Globe size={14} />
-              </a>
-              <a
-                href="#provenance"
-                onClick={(e) => {
-                  e.preventDefault();
-                  soundFX.playClick();
-                  setActiveModal('provenance');
-                }}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#e9c176]/20 border border-white/10 hover:border-[#e9c176]/40 flex items-center justify-center opacity-70 hover:opacity-100 hover:text-[#e9c176] transition-all"
-                title="Provenance Guarantee"
-              >
-                <ShieldCheck size={14} />
-              </a>
             </div>
-
-            <div className="h-4 w-[1px] bg-white/10" />
-
-            {/* Back to top button */}
-            <button
-              onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-[#e9c176]/20 border border-white/10 hover:border-[#e9c176]/40 text-current hover:text-[#e9c176] transition-all text-[11px] font-medium tracking-wider uppercase cursor-pointer"
-              title="Return to top of page"
-            >
-              <span>TOP</span>
-              <ArrowUp size={12} />
-            </button>
           </div>
         </div>
       </div>
 
-      {/* 4. MODAL DIALOGS FOR FOOTER LINKS */}
+      {/* 4. FOOTER LINK MODALS */}
       {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className="relative w-full max-w-lg glass-sharp-gold rounded-3xl p-6 sm:p-8 text-white border border-[#e9c176]/40 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="relative w-full max-w-lg surface-glass-gold p-6 sm:p-8"
+            style={{ borderRadius: 'var(--radius-lg)', color: 'var(--color-text-primary)' }}
+          >
             <button
               onClick={() => setActiveModal(null)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white cursor-pointer"
+              className="absolute top-4 right-4 p-2 rounded-full cursor-pointer transition-colors"
+              style={{ backgroundColor: 'var(--color-bg-tertiary)', color: 'var(--color-text-secondary)' }}
+              aria-label="Close"
             >
               <X size={16} />
             </button>
 
             {activeModal === 'terms' && (
               <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  Terms of Metamorphosis
+                <h3 className="font-serif-heading text-2xl font-medium mb-3" style={{ color: 'var(--color-accent-gold)' }}>
+                  Terms of Service
                 </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans max-h-72 overflow-y-auto pr-2">
-                  <p>
-                    1. <strong>Irreversibility:</strong> Initiating metamorphosis permanently dissolves the selected original artworks into the Aurelian Protocol. This process is mathematically irreversible.
-                  </p>
-                  <p>
-                    2. <strong>Generative Provenance:</strong> The resulting botanical artifact receives a cryptographic lineage record tracing back to the surrendered source works.
-                  </p>
-                  <p>
-                    3. <strong>Collector Custody:</strong> Minted artifacts are deposited directly into your connected Phantom wallet with complete self-custody and full transfer rights.
-                  </p>
+                <div className="text-sm space-y-3 leading-relaxed font-sans max-h-72 overflow-y-auto pr-2" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p>1. <strong style={{ color: 'var(--color-text-primary)' }}>Irreversibility:</strong> Burning an NFT permanently destroys it. This action cannot be undone.</p>
+                  <p>2. <strong style={{ color: 'var(--color-text-primary)' }}>Provenance:</strong> Each new artifact records a verifiable link back to the burned source NFTs.</p>
+                  <p>3. <strong style={{ color: 'var(--color-text-primary)' }}>Custody:</strong> Minted artifacts are delivered directly to your connected wallet with full transfer rights.</p>
                 </div>
               </div>
             )}
 
             {activeModal === 'privacy' && (
               <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  Collector Privacy
+                <h3 className="font-serif-heading text-2xl font-medium mb-3" style={{ color: 'var(--color-accent-gold)' }}>
+                  Privacy
                 </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p>
-                    Aurelian Mist respects collector autonomy. We do not track personal identification details, web footprints, or custodial credentials.
-                  </p>
-                  <p>
-                    All transformation state data is processed entirely client-side and verified on-chain via the cryptographic Oracle.
-                  </p>
+                <div className="text-sm space-y-3 leading-relaxed font-sans" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p>We do not collect personal identification details or custodial credentials.</p>
+                  <p>Transformation state is processed client-side and verified on-chain.</p>
                 </div>
               </div>
             )}
 
             {activeModal === 'provenance' && (
               <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  Cryptographic Provenance Standard
+                <h3 className="font-serif-heading text-2xl font-medium mb-3" style={{ color: 'var(--color-accent-gold)' }}>
+                  Provenance
                 </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p>
-                    Every Aurelian Artifact embeds a verifiable token lineage record preserving the titles, genesis IDs, and aesthetic harmonics of all sacrificed pieces.
-                  </p>
-                  <p>
-                    This permanent provenance guarantees authentic digital scarcity and historical significance.
-                  </p>
+                <div className="text-sm space-y-3 leading-relaxed font-sans" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p>Every artifact embeds a verifiable record of the NFTs burned to create it, including their names and token IDs.</p>
+                  <p>This provides a permanent, auditable lineage for each new artifact.</p>
                 </div>
               </div>
             )}
 
             {activeModal === 'vrf' && (
               <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  Verifiable Random Function (VRF)
+                <h3 className="font-serif-heading text-2xl font-medium mb-3" style={{ color: 'var(--color-accent-gold)' }}>
+                  How Artifacts Are Generated
                 </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p>
-                    Artifact generation utilizes a Verifiable Random Function (VRF) to combine source metadata, current lunar coordinates, and cryptographic randomness.
-                  </p>
-                  <p>
-                    This mathematically prevents predictability and ensures every botanical form is singular.
-                  </p>
+                <div className="text-sm space-y-3 leading-relaxed font-sans" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p>Artifact generation uses a verifiable random function (VRF) combining source metadata with on-chain randomness.</p>
+                  <p>This makes each result unpredictable and ensures every artifact is unique.</p>
                 </div>
               </div>
             )}
 
             {activeModal === 'phantom' && (
               <div>
-                <div className="flex items-center gap-2.5 mb-3">
-                  <span className="text-2xl">👻</span>
-                  <h3 className="font-serif-heading text-2xl font-medium text-[#ab9ff2]">
-                    Phantom Wallet Security
-                  </h3>
-                </div>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p>
-                    Aurelian Mist provides native support for Phantom Wallet, ensuring ultra-low latency, zero-knowledge signing, and immediate visual asset rendering.
-                  </p>
-                  <p>
-                    Ensure your Phantom extension or mobile app is updated to the latest release for optimal security.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {activeModal === 'manifesto' && (
-              <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  The Sanctuary Manifesto
+                <h3 className="font-serif-heading text-2xl font-medium mb-3" style={{ color: 'var(--color-phantom)' }}>
+                  Wallet Security
                 </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p className="italic font-serif text-sm text-[#e9c176]">
-                    "In the digital continuum, true beauty is born from intentional surrender."
-                  </p>
-                  <p>
-                    Aurelian Mist was established to transcend the noise of rapid asset accumulation. By offering original works to the mist, collectors participate in a meditative act of digital re-creation.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {activeModal === 'lunar' && (
-              <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  Lunar Cycle Calibration
-                </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p>
-                    Current Phase: <strong className="text-[#e9c176]">Waxing Gibbous (88% Illumination)</strong>
-                  </p>
-                  <p>
-                    During high lunar phases (Gibbous & Full Moon), forged artifacts exhibit heightened luminescence traits and golden botanical crystallization.
-                  </p>
+                <div className="text-sm space-y-3 leading-relaxed font-sans" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p>Aurelian Mist supports Phantom wallet for signing and asset display.</p>
+                  <p>Keep your Phantom extension or mobile app updated for the best security.</p>
                 </div>
               </div>
             )}
 
             {activeModal === 'botanical' && (
               <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  Botanical Genus Classification
+                <h3 className="font-serif-heading text-2xl font-medium mb-3" style={{ color: 'var(--color-accent-gold)' }}>
+                  Artifact Types
                 </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p>
-                    Artifacts are catalogued into four sacred families: <em>Aurelia Chrysalis</em>, <em>Sylva Aurelia</em>, <em>Flora Luminosa</em>, and <em>Oceanus Gold</em>.
-                  </p>
-                  <p>
-                    Each family reflects the elemental harmony of the original works sacrificed in its forging.
-                  </p>
+                <div className="text-sm space-y-3 leading-relaxed font-sans" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p>Artifacts fall into four families: <em>Aurelia Chrysalis</em>, <em>Sylva Aurelia</em>, <em>Flora Luminosa</em>, and <em>Oceanus Gold</em>.</p>
+                  <p>Each reflects the traits of the NFTs burned to create it.</p>
                 </div>
               </div>
             )}
 
             {activeModal === 'proof' && (
               <div>
-                <h3 className="font-serif-heading text-2xl font-medium text-[#e9c176] mb-3">
-                  Proof of Surrender
+                <h3 className="font-serif-heading text-2xl font-medium mb-3" style={{ color: 'var(--color-accent-gold)' }}>
+                  Proof of Burn
                 </h3>
-                <div className="text-xs text-white/80 space-y-3 leading-relaxed font-sans">
-                  <p>
-                    Upon metamorphosis, source artworks are consigned to verified zero-knowledge custody.
-                  </p>
-                  <p>
-                    Cryptographic receipts are minted directly with the new botanical artifact for auditability.
-                  </p>
+                <div className="text-sm space-y-3 leading-relaxed font-sans" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p>When you transform NFTs, the burn is recorded on-chain.</p>
+                  <p>A cryptographic receipt is minted alongside the new artifact for auditability.</p>
                 </div>
               </div>
             )}
 
-            <div className="mt-6 pt-4 border-t border-white/10 flex justify-end">
+            <div className="mt-6 pt-4 border-t flex justify-end" style={{ borderColor: 'var(--color-border-subtle)' }}>
               <button
                 onClick={() => setActiveModal(null)}
-                className="px-5 py-2 rounded-full bg-[#e9c176] text-[#2c1d00] text-xs font-semibold tracking-wider uppercase hover:bg-[#ffdca2] cursor-pointer"
+                className="btn btn-primary btn-pill"
               >
-                CLOSE
+                Close
               </button>
             </div>
           </div>
